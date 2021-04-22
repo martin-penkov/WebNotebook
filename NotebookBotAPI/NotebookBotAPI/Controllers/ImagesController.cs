@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NotebookBotAPI.Models;
+using NotebookBotAPI.Models.InputModels;
 
 namespace NotebookBotAPI.Controllers
 {
@@ -38,7 +41,7 @@ namespace NotebookBotAPI.Controllers
                 return NotFound();
             }
 
-            return image;
+            return new FileContentResult(image.ImageData, "image/png");
         }
 
         // PUT: api/Images/5
@@ -75,11 +78,32 @@ namespace NotebookBotAPI.Controllers
         // POST: api/Images
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Image>> PostImage(Image image)
+        public async Task<ActionResult<Image>> PostImage(ImageJSON imgData)
         {
+            byte[] data;
+            using (WebClient webClient = new WebClient())
+            {
+                data = webClient.DownloadData(imgData.ImageURL);
+            }
+            
+            if (_context.Users.FirstOrDefault(x => x.Username == imgData.Username) == null)
+            {
+                _context.Users.Add(new User()
+                {
+                    Username = imgData.Username
+                });
+            }
+
+            _context.SaveChanges();
+            var image = new Image()
+            {
+                DateSent = imgData.DateSent,
+                ImageData = data,
+                UserId = _context.Users.FirstOrDefault(x => x.Username == imgData.Username).Id
+            };
+
             _context.Images.Add(image);
             await _context.SaveChangesAsync();
-
             return CreatedAtAction("GetImage", new { id = image.Id }, image);
         }
 
