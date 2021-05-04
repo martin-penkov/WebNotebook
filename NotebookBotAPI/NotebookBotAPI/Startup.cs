@@ -1,23 +1,20 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using NotebookBotAPI.Helpers;
+using NotebookBotAPI.Infrastructure;
 using NotebookBotAPI.Models;
+using NotebookBotAPI.Services;
 
 namespace NotebookBotAPI
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -30,10 +27,34 @@ namespace NotebookBotAPI
         {
             services.AddDbContext<NotebookDbContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("AppConnectionString")));
+            services.AddIdentity<User, IdentityRole>(options =>
+                {
+                    options.Password.RequireDigit = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequiredLength = 5;
+                    options.Password.RequireNonAlphanumeric = false;
+                })
+                .AddEntityFrameworkStores<NotebookDbContext>();
+
             services.AddControllers();
-            services.AddSwaggerGen(c =>
+
+            var appSettings = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettings);
+
+            //configure DI for app services
+            services.AddScoped<IUserService, UserService>();
+
+            services.AddCors(options =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "NotebookBotAPI", Version = "v1" });
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                    builder =>
+                    {
+                        //builder.WithOrigins("http://localhost:3000");
+                        builder.SetIsOriginAllowed(origin => true);
+                        builder.AllowAnyMethod();
+                        builder.AllowAnyHeader();
+                    });
             });
         }
 
@@ -43,20 +64,18 @@ namespace NotebookBotAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "NotebookBotAPI v1"));
             }
-
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
-            app.UseAuthorization();
+            app.UseCors(MyAllowSpecificOrigins);
+            app.UseMiddleware<JwtMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
+            app.ApplyMigrations();
         }
     }
 }

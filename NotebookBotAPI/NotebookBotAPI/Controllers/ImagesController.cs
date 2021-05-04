@@ -6,15 +6,17 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using NotebookBotAPI.Models;
+using NotebookBotAPI.Models.ExportModels;
 using NotebookBotAPI.Models.InputModels;
 
 namespace NotebookBotAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ImagesController : ControllerBase
+    public class ImagesController : ApiController
     {
         private readonly NotebookDbContext _context;
 
@@ -32,7 +34,7 @@ namespace NotebookBotAPI.Controllers
 
         // GET: api/Images/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Image>> GetImage(int id)
+        public async Task<ActionResult<Image>> GetImageById(int id)
         {
             var image = await _context.Images.FindAsync(id);
 
@@ -42,6 +44,34 @@ namespace NotebookBotAPI.Controllers
             }
 
             return new FileContentResult(image.ImageData, "image/png");
+        }
+
+        // GET: api/Images/username/date
+        [HttpGet]
+        [Route("GetUserImages/{username}/{date}")]
+        public async Task<ActionResult<IEnumerable<ImageUrlJSON>>> GetImageByUsernameDate(string username, string date)
+        {
+            var requestUrl = $"{Request.Scheme}://{Request.Host.Value}";
+            DateTime parsedDate = DateTime.Parse(date);
+
+            var images = _context.Images
+                .Include(x => x.User)
+                .Where(x => x.User.UserName == username)
+                .Where(x => x.DateSent > parsedDate)
+                .Select(x => new ImageUrlJSON()
+                {
+                    dateSent = x.DateSent,
+                    imageUrl = $"{requestUrl}/api/Images/{x.Id}",
+                    Username = x.User.UserName
+                })
+                .ToList();
+
+            if (!images.Any())
+            {
+                return NotFound();
+            }
+            
+            return images;
         }
 
         // PUT: api/Images/5
@@ -80,26 +110,27 @@ namespace NotebookBotAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Image>> PostImage(ImageJSON imgData)
         {
+            DateTime parsedDate = DateTime.Parse(imgData.DateSent);
             byte[] data;
             using (WebClient webClient = new WebClient())
             {
                 data = webClient.DownloadData(imgData.ImageURL);
             }
             
-            if (_context.Users.FirstOrDefault(x => x.Username == imgData.Username) == null)
+            if (_context.Users.FirstOrDefault(x => x.UserName == imgData.Username) == null)
             {
                 _context.Users.Add(new User()
                 {
-                    Username = imgData.Username
+                    UserName = imgData.Username
                 });
             }
 
             _context.SaveChanges();
             var image = new Image()
             {
-                DateSent = imgData.DateSent,
+                DateSent = parsedDate,
                 ImageData = data,
-                UserId = _context.Users.FirstOrDefault(x => x.Username == imgData.Username).Id
+                UserId = _context.Users.FirstOrDefault(x => x.UserName == imgData.Username).Id
             };
 
             _context.Images.Add(image);
