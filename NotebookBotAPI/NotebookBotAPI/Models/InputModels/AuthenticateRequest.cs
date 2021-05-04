@@ -6,13 +6,9 @@ using System.Threading.Tasks;
 
 namespace NotebookBotAPI.Models.InputModels
 {
-    public class ImageJSON
+    public class AuthenticateRequest
     {
-        [Required]
-        public string Username { get; set; }
-
-        public string ImageURL { get; set; }
-        public string DateSent { get; set; }
-
+        [Required] public string Username { get; set; }
+        [Required] public string Password { get; set; }
     }
 }

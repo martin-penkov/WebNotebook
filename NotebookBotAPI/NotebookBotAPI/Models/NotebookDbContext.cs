@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace NotebookBotAPI.Models
 {
-    public class NotebookDbContext : DbContext
+    public class NotebookDbContext : IdentityDbContext<User>
     {
         public NotebookDbContext(DbContextOptions options) : base(options)
         {
@@ -19,6 +20,7 @@ namespace NotebookBotAPI.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
         }
         //entities
         public DbSet<User> Users { get; set; }
