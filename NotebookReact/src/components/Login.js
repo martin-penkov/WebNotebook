@@ -1,6 +1,7 @@
 import React from 'react'
-import { TextField, Typography, Button } from '@material-ui/core';
+import { TextField, Typography, Button, Box } from '@material-ui/core';
 import {authenticationService} from '../services/auth'
+import styled from 'styled-components'
 
 export default class Login extends React.Component{
     
@@ -34,41 +35,60 @@ export default class Login extends React.Component{
     }
 
     render(){
+        const StyledContainer = styled.div`
+          margin: auto;
+          width: 50%;
+
+        `;
+
+        const StyledBox = styled.div`
+          margin: 7px 7px 7px 7px;
+        `;
+
         return (
+          <StyledContainer>
             <div className="Login">
               <form>
-                <Typography variant="h5" style={{ marginBottom: 8 }}>
+                <Typography variant="h5" style={{ margin: 8 }}>
                   Login
                 </Typography>
-                <TextField
-                  label="Email"
-                  variant="outlined"
-                  fullWidth
-                  className="form-input"
-                  value={this.state.email}
-                  onChange={e => this.setEmail(e.target.value)}
-                />
-                <TextField
-                  label="Password"
-                  variant="outlined"
-                  fullWidth
-                  className="form-input"
-                  type="password"
-                  value={this.state.password}
-                  onChange={e => this.setPassword(e.target.value)}
-                />
-                <Button
-                  variant="contained"
-                  color="primary"
-                  fullWidth
-                  className="form-input"
-                  size="large"
-                  onClick={this.handleSubmit}
-                >
-                  Login
-                </Button>
+                <StyledBox>
+                  <TextField
+                    label="Email"
+                    variant="outlined"
+                    fullWidth
+                    className="form-input"
+                    value={this.state.email}
+                    onChange={e => this.setEmail(e.target.value)}
+                  />
+                </StyledBox>
+                <StyledBox>
+                  <TextField
+                    label="Password"
+                    variant="outlined"
+                    fullWidth
+                    className="form-input"
+                    type="password"
+                    
+                    value={this.state.password}
+                    onChange={e => this.setPassword(e.target.value)}
+                  />
+                </StyledBox>
+                <StyledBox>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    className="form-input"
+                    size="large"
+                    onClick={this.handleSubmit}
+                  >
+                    Login
+                  </Button>
+                </StyledBox>
               </form>
             </div>
+            </StyledContainer>
           );
     }
 }
