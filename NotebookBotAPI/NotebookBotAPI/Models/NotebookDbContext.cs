@@ -21,5 +21,7 @@ namespace NotebookBotAPI.Models
         //entities
         public DbSet<User> Users { get; set; }
         public DbSet<Image> Images { get; set; }
+        public DbSet<Notebook> Notebooks { get; set; }
+        public DbSet<Note> Notes { get; set; }
     }
 }

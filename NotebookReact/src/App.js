@@ -40,6 +40,7 @@ function App() {
             <Route path='/' exact component={HomeWrapper}/>
             <Route path='/login' component={Login}/>
             <Route path='/register' component={Register}/>
+            {/* <Route path='/create/notebook' component={}/> */}
           </Switch>
       </div>
     </BrowserRouter>

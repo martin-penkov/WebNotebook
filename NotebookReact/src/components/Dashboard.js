@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import img from "../static/paperBg.png"
+import CreateNotebook from './Notebook/CreateNotebook';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -50,6 +51,7 @@ const cards = [1, 2, 3, 4];
 
 export default function Dashboard() {
   const classes = useStyles();
+  const [activateCreate, setActivate] = useState(false)
 
   return (
     <React.Fragment>
@@ -68,9 +70,12 @@ export default function Dashboard() {
             <div className={classes.heroButtons}>
               <Grid container spacing={2} justify="center">
                 <Grid item>
-                  <Button variant="contained" color="primary">
+                  <Button variant="contained" color="primary" onClick={() => {setActivate(!activateCreate)}}>
                     Create
                   </Button>
+                  <CreateNotebook
+                  activate={activateCreate}>
+                  </CreateNotebook>
                 </Grid>
                 <Grid item>
                   <Button variant="outlined" color="primary">
