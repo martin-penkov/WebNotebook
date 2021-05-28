@@ -17,8 +17,12 @@ function getAuthReqOption(){
 
 }
 
-function postReqOption(){
-
+function postReqOption(body){
+    return ({
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    })
 }
 
 function postAuthReqOption(){

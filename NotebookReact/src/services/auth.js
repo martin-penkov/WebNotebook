@@ -1,5 +1,5 @@
 import {API_URL} from "../config";
-import handleAuth from '../helpers/handleAuth'
+import {requestOptions} from '../helpers/requestOptions'
 
 export const authenticationService = {
     login,
@@ -10,13 +10,9 @@ export const authenticationService = {
 function currentUserValue () { return JSON.parse(localStorage.getItem('currentUser')); }
 
 function login(username, password) {
-    const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
-    };
+    let loginObject = {username: username, password: password}
 
-    return fetch(`${API_URL}identity/login`, requestOptions)
+    return fetch(`${API_URL}identity/login`, requestOptions.postReqOption(loginObject))
         //.then(handleAuth(response))
         .then((response) => {
             if(response.ok){

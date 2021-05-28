@@ -8,8 +8,7 @@ export const notebookService = {
 
 function createNotebook(title){
     let username = JSON.parse(auth.currentUserValue).username
-    let passObject = requestOptions.getAuthReqOption
 
-    return fetch(`${API_URL}Notebook/Create`)
+    return fetch(`${API_URL}Notebook/Create`, requestOptions.getReqOption({username: username, title: title}))
             .then()
 }

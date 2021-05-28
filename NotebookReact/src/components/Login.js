@@ -1,7 +1,18 @@
 import React from 'react'
-import { TextField, Typography, Button, Box } from '@material-ui/core';
+import { TextField, Typography, Button } from '@material-ui/core';
 import {authenticationService} from '../services/auth'
 import styled from 'styled-components'
+
+
+const StyledContainer = styled.div`
+margin: auto;
+width: 50%;
+
+`;
+
+const StyledBox = styled.div`
+margin: 7px 7px 7px 7px;
+`;
 
 export default class Login extends React.Component{
     
@@ -35,16 +46,6 @@ export default class Login extends React.Component{
     }
 
     render(){
-        const StyledContainer = styled.div`
-          margin: auto;
-          width: 50%;
-
-        `;
-
-        const StyledBox = styled.div`
-          margin: 7px 7px 7px 7px;
-        `;
-
         return (
           <StyledContainer>
             <div className="Login">

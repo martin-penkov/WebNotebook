@@ -4,11 +4,7 @@ import LandingPage from './LandingPage'
 import Dashboard from './Dashboard'
 
 export default class HomeWrapper extends React.Component{
-    constructor(props){
-        super(props)
 
-        
-    }
 
     checkUserLoginStatus(){
         return auth.currentUserValue()
