@@ -1,3 +1,5 @@
+import {authenticationService as auth} from '../services/auth'
+
 export const requestOptions = {
     getReqOption,
     getAuthReqOption,
@@ -25,8 +27,15 @@ function postReqOption(body){
     })
 }
 
-function postAuthReqOption(){
-
+function postAuthReqOption(body, jwtToken=JSON.parse(auth.currentUserValue()).token){
+    return ({
+        method: 'POST',
+        headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwtToken}`
+        },
+        body: JSON.stringify(body)
+    })
 }
 
 //add delete, put req options only with auth permission

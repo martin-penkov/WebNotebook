@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using NotebookBotAPI.Models;
@@ -9,7 +10,7 @@ namespace NotebookBotAPI.Helpers
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class AuthorizeAttribute : Attribute, IAuthorizationFilter
     {
-        public void OnAuthorization(AuthorizationFilterContext context)
+        public async void  OnAuthorization(AuthorizationFilterContext context)
         {
             var user = (User) context.HttpContext.Items["User"];
             if (user == null)
