@@ -8,8 +8,6 @@ namespace NotebookBotAPI.Models.InputModels
     {
         [Required]
         public string Title { get; set; }
-        [Required]
-        public string Username { get; set; }
 
     }
 }

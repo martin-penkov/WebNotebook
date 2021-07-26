@@ -9,6 +9,7 @@ using NotebookBotAPI.Helpers;
 using NotebookBotAPI.Infrastructure;
 using NotebookBotAPI.Models;
 using NotebookBotAPI.Services;
+using NotebookBotAPI.Services.NotebookService;
 
 namespace NotebookBotAPI
 {
@@ -44,6 +45,7 @@ namespace NotebookBotAPI
 
             //configure DI for app services
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<INotebookService, NotebookService>();
 
             services.AddCors(options =>
             {
