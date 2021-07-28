@@ -31,19 +31,18 @@ namespace NotebookBotAPI.Controllers
         [Route(nameof(Create))]
         public async Task<ActionResult<Notebook>> Create(NotebookJsonInput inputJson)
         {
-            var usId = await _manager.GetUserAsync(HttpContext.User);
-            //var userid = _context.Users.FirstOrDefault(x => x.UserName == inputJson.Username).Id;
-            //if (userid == null)
-            //{
-            //    throw new ArgumentException("No user could be found with given username!");
-            //}
+            var user = (User) HttpContext.Items["User"];
+            if (user.Id == null)
+            {
+                throw new ArgumentException("No user could be found with given username!");
+            }
 
-            //_context.Notebooks.Add(new Notebook
-            //{
-            //    Name = inputJson.Title,
-            //    DateCreated = DateTime.Now,
-            //    UserId = userid
-            //});
+            _context.Notebooks.Add(new Notebook
+            {
+                Name = inputJson.Title,
+                DateCreated = DateTime.Now,
+                UserId = user.Id
+            });
             await _context.SaveChangesAsync();
             return NoContent();
         }
