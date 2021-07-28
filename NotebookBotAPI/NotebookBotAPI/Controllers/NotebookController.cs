@@ -16,14 +16,12 @@ namespace NotebookBotAPI.Controllers
     public class NotebookController : ApiController
     {
         private readonly NotebookDbContext _context;
-        private readonly UserManager<User> _manager;
-        //private readonly NotebookService _nbservice;
+        private readonly INotebookService nbService;
 
-        public NotebookController(NotebookDbContext context, UserManager<User> manager)
+        public NotebookController(NotebookDbContext context, INotebookService _nbservice)
         {
             _context = context;
-            _manager = manager;
-            //_nbservice = nbservice;
+            nbService = _nbservice;
         }
 
         [Authorize]
@@ -31,7 +29,7 @@ namespace NotebookBotAPI.Controllers
         [Route(nameof(Create))]
         public async Task<ActionResult<Notebook>> Create(NotebookJsonInput inputJson)
         {
-            var user = (User) HttpContext.Items["User"];
+            var user = GetUserContext();
             if (user.Id == null)
             {
                 throw new ArgumentException("No user could be found with given username!");
@@ -47,18 +45,22 @@ namespace NotebookBotAPI.Controllers
             return NoContent();
         }
 
-        [Authorize]
+        
         [HttpGet]
         [Route(nameof(GetAll))]
-        public async Task<ActionResult<Notebook>> GetAll()
+        public async Task<ActionResult<ICollection<Notebook>>> GetAll()
         {
-            
             //get user id from jwt token claims
-
-
+            var user = GetUserContext();
+            if (user.Id == null)
+            {
+                throw new ArgumentException("No user could be found with given username!");
+            }
+            
             //get data from db
-            //var neshto = _nbservice.GetAllByOwnerId("asdfasdfsadf");
-            return NoContent();
+            return new JsonResult(nbService.GetAllByOwnerId(user.Id)); ;
         }
+
+        private User GetUserContext() => (User)HttpContext.Items["User"];
     }
 }
