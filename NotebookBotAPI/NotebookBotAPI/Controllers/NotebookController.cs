@@ -15,15 +15,11 @@ namespace NotebookBotAPI.Controllers
     [Route("[controller]")]
     public class NotebookController : ApiController
     {
-        private readonly NotebookDbContext _context;
-        private readonly UserManager<User> _manager;
-        //private readonly NotebookService _nbservice;
+        private readonly INotebookService nbService;
 
-        public NotebookController(NotebookDbContext context, UserManager<User> manager)
+        public NotebookController(INotebookService _nbservice)
         {
-            _context = context;
-            _manager = manager;
-            //_nbservice = nbservice;
+            nbService = _nbservice;
         }
 
         [Authorize]
@@ -31,35 +27,37 @@ namespace NotebookBotAPI.Controllers
         [Route(nameof(Create))]
         public async Task<ActionResult<Notebook>> Create(NotebookJsonInput inputJson)
         {
-            var usId = await _manager.GetUserAsync(HttpContext.User);
-            //var userid = _context.Users.FirstOrDefault(x => x.UserName == inputJson.Username).Id;
-            //if (userid == null)
-            //{
-            //    throw new ArgumentException("No user could be found with given username!");
-            //}
+            var user = GetUserContext();
+            if (user.Id == null)
+            {
+                throw new ArgumentException("No user could be found with given username!");
+            }
 
-            //_context.Notebooks.Add(new Notebook
-            //{
-            //    Name = inputJson.Title,
-            //    DateCreated = DateTime.Now,
-            //    UserId = userid
-            //});
-            await _context.SaveChangesAsync();
-            return NoContent();
+            nbService.CreateNotebook(new Notebook
+            {
+                Name = inputJson.Title,
+                DateCreated = DateTime.Now,
+                UserId = user.Id
+            });
+            return Ok();
         }
 
-        [Authorize]
+        
         [HttpGet]
         [Route(nameof(GetAll))]
-        public async Task<ActionResult<Notebook>> GetAll()
+        public async Task<ActionResult<ICollection<Notebook>>> GetAll()
         {
-            
             //get user id from jwt token claims
-
-
+            var user = GetUserContext();
+            if (user.Id == null)
+            {
+                throw new ArgumentException("No user could be found with given username!");
+            }
+            
             //get data from db
-            //var neshto = _nbservice.GetAllByOwnerId("asdfasdfsadf");
-            return NoContent();
+            return new JsonResult(nbService.GetAllByOwnerId(user.Id));
         }
+
+        private User GetUserContext() => (User)HttpContext.Items["User"];
     }
 }
