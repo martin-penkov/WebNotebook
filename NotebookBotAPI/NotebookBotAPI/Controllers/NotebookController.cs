@@ -15,12 +15,10 @@ namespace NotebookBotAPI.Controllers
     [Route("[controller]")]
     public class NotebookController : ApiController
     {
-        private readonly NotebookDbContext _context;
         private readonly INotebookService nbService;
 
-        public NotebookController(NotebookDbContext context, INotebookService _nbservice)
+        public NotebookController(INotebookService _nbservice)
         {
-            _context = context;
             nbService = _nbservice;
         }
 
@@ -35,14 +33,13 @@ namespace NotebookBotAPI.Controllers
                 throw new ArgumentException("No user could be found with given username!");
             }
 
-            _context.Notebooks.Add(new Notebook
+            nbService.CreateNotebook(new Notebook
             {
                 Name = inputJson.Title,
                 DateCreated = DateTime.Now,
                 UserId = user.Id
             });
-            await _context.SaveChangesAsync();
-            return NoContent();
+            return Ok();
         }
 
         
@@ -58,7 +55,7 @@ namespace NotebookBotAPI.Controllers
             }
             
             //get data from db
-            return new JsonResult(nbService.GetAllByOwnerId(user.Id)); ;
+            return new JsonResult(nbService.GetAllByOwnerId(user.Id));
         }
 
         private User GetUserContext() => (User)HttpContext.Items["User"];

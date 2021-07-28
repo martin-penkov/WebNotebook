@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using NotebookBotAPI.Helpers;
 using NotebookBotAPI.Models;
+using NotebookBotAPI.Models.ExportModels.NotebooksByUserId;
 
 namespace NotebookBotAPI.Services.NotebookService
 {
@@ -14,18 +15,32 @@ namespace NotebookBotAPI.Services.NotebookService
         {
             _dbcontext = dbcontext;
         }
+
+        public void CreateNotebook(Notebook addNotebook)
+        {
+            _dbcontext.Notebooks.Add(addNotebook);
+            _dbcontext.SaveChanges();
+        }
+
         [Authorize]
         [HttpGet]
-        public ICollection<Notebook> GetAllByOwnerId(string Id)
+        public ICollection<UserIdNotebook> GetAllByOwnerId(string Id)
         {
             return _dbcontext.Notebooks
                 .Where(x => x.UserId == Id)
-                .ToList();
+                .Select(x => new UserIdNotebook
+                    {
+                        DateCreated = x.DateCreated,
+                        Name = x.Name
+                    }).ToList();
+                  
         }
         [Authorize]
+        [HttpGet]
         public Notebook GetById(int Id)
         {
-            throw new NotImplementedException();
+            return _dbcontext.Notebooks
+                .FirstOrDefault(x => x.Id == Id);
         }
     }
 }
