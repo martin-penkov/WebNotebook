@@ -15,8 +15,15 @@ function getReqOption(body) {
     })
 }
 
-function getAuthReqOption(){
-
+function getAuthReqOption(body, jwtToken=JSON.parse(auth.currentUserValue()).token){
+    return ({
+        method: 'GET',
+        headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwtToken}`
+        },
+        body: JSON.stringify(body)
+    })
 }
 
 function postReqOption(body){

@@ -11,6 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import img from "../static/paperBg.png"
 import CreateNotebook from './Notebook/CreateNotebook';
+import { notebookService } from '../services/notebookService';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -52,6 +53,8 @@ const cards = [1, 2, 3, 4];
 export default function Dashboard() {
   const classes = useStyles();
   const [activateCreate, setActivate] = useState(false)
+
+  notebookService.getUserItems();
 
   return (
     <React.Fragment>
