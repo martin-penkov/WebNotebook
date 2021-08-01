@@ -7,17 +7,11 @@ export const notebookService = {
     createNotebook
 }
 
-function getUserItems(){
-    // let username =  JSON.parse(auth.currentUserValue).username  
+async function getUserItems(){
     var req = reqOptions.getAuthReqOption()
-    var userData = fetch(`${API_URL}Notebook/GetAll`, req)
-    .then(response => {
-        response.json()
-        console.log(response)
-    })
-    .then(response => console.log(response))
-
-    return null
+    let response =  await fetch(`/Notebook/GetAll`, req)
+    let data = await response.json()
+    return data
 }
 
 function createNotebook(title){

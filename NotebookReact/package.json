@@ -1,4 +1,5 @@
 {
+  "proxy": "https://localhost:44319",
   "name": "notebook",
   "version": "0.1.0",
   "private": true,

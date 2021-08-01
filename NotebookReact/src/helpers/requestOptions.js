@@ -7,22 +7,21 @@ export const requestOptions = {
     postAuthReqOption    
 };
 
-function getReqOption(body) {
+function getReqOption() {
     return ({
     method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
-    })
+    headers: { 'Content-Type': 'application/json' }
+    })  
 }
 
-function getAuthReqOption(body, jwtToken=JSON.parse(auth.currentUserValue()).token){
+function getAuthReqOption(){
+    let jwtToken = auth.currentUserValue().token
     return ({
         method: 'GET',
         headers: { 
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${jwtToken}`
-        },
-        body: JSON.stringify(body)
+        }
     })
 }
 
@@ -34,7 +33,7 @@ function postReqOption(body){
     })
 }
 
-function postAuthReqOption(body, jwtToken=JSON.parse(auth.currentUserValue()).token){
+function postAuthReqOption(body, jwtToken=(auth.currentUserValue()).token){
     return ({
         method: 'POST',
         headers: { 
