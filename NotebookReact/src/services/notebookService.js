@@ -1,23 +1,25 @@
 import {authenticationService as auth} from './auth';
 import {API_URL} from "../config";
-import requestOptions from '../helpers/requestOptions';
+import {requestOptions as reqOptions} from '../helpers/requestOptions';
 
 export const notebookService = {
+    getUserItems,
     createNotebook
 }
 
-function getUserItems(){
-    let username =  JSON.parse(auth.currentUserValue).username  
-
-    
+async function getUserItems(){
+    var req = reqOptions.getAuthReqOption()
+    let response =  await fetch(`/Notebook/GetAll`, req)
+    let data = await response.json()
+    return data
 }
 
 function createNotebook(title){
     let username = JSON.parse(auth.currentUserValue).username
 
-    return fetch(`${API_URL}Notebook/Create`, requestOptions.postAuthReqOption({username: username, title: title}))
+    return fetch(`${API_URL}Notebook/Create`, reqOptions.postAuthReqOption({username: username, title: title}))
             .then(response => response.json())
             .then(
-                console.log(response)
+                response => console.log(response)
             )
 }
