@@ -1,13 +1,37 @@
 import {API_URL} from "../config";
 import {requestOptions} from '../helpers/requestOptions'
 
+
 export const authenticationService = {
+    register,
     login,
     logout,
     currentUserValue
 };
 
 function currentUserValue () { return JSON.parse(localStorage.getItem('currentUser')); }
+
+function register(username, password) {
+    let registerObject = {username: username, password: password}
+
+    return fetch('identity/register', requestOptions.postReqOption(registerObject))
+    .then((response) => {
+        if(response.ok){
+            return response.json();
+        }
+        else{
+            throw response
+        }
+    })
+    .catch(error => {
+        async function getErrorMessage(){
+            console.log(error)
+            //let jsonObj = await error.json()
+            return alert()
+        }
+        getErrorMessage()
+    })
+}
 
 function login(username, password) {
     let loginObject = {username: username, password: password}

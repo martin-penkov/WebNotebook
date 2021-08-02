@@ -48,8 +48,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const cards = [];
-
 export default function Dashboard() {
   const classes = useStyles();
   const [activateCreate, setActivate] = useState(false)

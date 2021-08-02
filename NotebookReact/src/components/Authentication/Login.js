@@ -1,6 +1,6 @@
 import React from 'react'
 import { TextField, Typography, Button } from '@material-ui/core';
-import {authenticationService} from '../services/auth'
+import {authenticationService} from '../../services/auth'
 import styled from 'styled-components'
 
 
