@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -8,13 +9,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
+using NotebookBotAPI.Helpers;
 using NotebookBotAPI.Models;
 using NotebookBotAPI.Models.ExportModels;
 using NotebookBotAPI.Models.InputModels;
 
 namespace NotebookBotAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class ImagesController : ApiController
     {
@@ -74,40 +76,27 @@ namespace NotebookBotAPI.Controllers
             return images;
         }
 
-        // PUT: api/Images/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutImage(int id, Image image)
+        [Authorize]
+        [HttpPost]
+        public async Task<ActionResult<Image>> PostImageRaw(ImageRawDataInput imgData)
         {
-            if (id != image.Id)
+            DateTime parsedDate = DateTime.Parse(imgData.DateSent);
+            //convert base64 image to byte array
+            byte[] imageBytes = Convert.FromBase64String(imgData.ImageBase64String);
+            //create new image in DB
+            var image = new Image()
             {
-                return BadRequest();
-            }
+                DateSent = parsedDate,
+                ImageData = imageBytes,
+                UserId = GetUserContext().Id
+            };
 
-            _context.Entry(image).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ImageExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            _context.Images.Add(image);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction("GetImage", new { id = image.Id }, image);
         }
 
-        // POST: api/Images
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
+            [HttpPost]
         public async Task<ActionResult<Image>> PostImage(ImageJSON imgData)
         {
             DateTime parsedDate = DateTime.Parse(imgData.DateSent);
@@ -158,5 +147,7 @@ namespace NotebookBotAPI.Controllers
         {
             return _context.Images.Any(e => e.Id == id);
         }
+
+        private User GetUserContext() => (User)HttpContext.Items["User"];
     }
 }

@@ -33,7 +33,8 @@ function postReqOption(body){
     })
 }
 
-function postAuthReqOption(body, jwtToken=(auth.currentUserValue()).token){
+function postAuthReqOption(body){
+    let jwtToken = auth.currentUserValue().token
     return ({
         method: 'POST',
         headers: { 

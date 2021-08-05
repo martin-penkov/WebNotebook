@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using NotebookBotAPI.Models;
 using NotebookBotAPI.Models.ExportModels.NotebooksByUserId;
+using NotebookBotAPI.Models.InputModels;
 
 namespace NotebookBotAPI.Services.NotebookService
 {
@@ -9,7 +10,7 @@ namespace NotebookBotAPI.Services.NotebookService
     {
         Notebook GetById(int Id);
         ICollection<UserIdNotebook> GetAllByOwnerId(string Id);
-
+        void CreateNote(Note addNote);
         void CreateNotebook(Notebook addNotebook);
     }
 }

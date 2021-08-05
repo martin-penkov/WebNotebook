@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using NotebookBotAPI.Helpers;
 using NotebookBotAPI.Models;
 using NotebookBotAPI.Models.ExportModels.NotebooksByUserId;
+using NotebookBotAPI.Models.InputModels;
 
 namespace NotebookBotAPI.Services.NotebookService
 {
@@ -19,6 +20,11 @@ namespace NotebookBotAPI.Services.NotebookService
         public void CreateNotebook(Notebook addNotebook)
         {
             _dbcontext.Notebooks.Add(addNotebook);
+            _dbcontext.SaveChanges();
+        }
+        public void CreateNote(Note addNote)
+        {
+            _dbcontext.Notes.Add(addNote);
             _dbcontext.SaveChanges();
         }
 
