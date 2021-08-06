@@ -1,5 +1,7 @@
 import {API_URL} from "../config";
 import {requestOptions} from '../helpers/requestOptions'
+import { UserProvider } from './../contexts/UserProvider'
+import { useContext } from 'react'
 
 
 export const authenticationService = {
@@ -47,8 +49,10 @@ function login(username, password) {
             }
         })
         .then(user => {
+            const { updateLoginStatus } = useContext(UserProvider);
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             localStorage.setItem('currentUser', JSON.stringify(user));
+            updateLoginStatus()
             return user;
         })
         .catch(error => {
@@ -61,6 +65,6 @@ function login(username, password) {
 }
 
 function logout() {
-    // remove user from local storage to log user out
+    // remove user from local storage to log user 
     localStorage.removeItem('currentUser');
 }

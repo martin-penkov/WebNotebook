@@ -1,62 +1,45 @@
+import { useState, useEffect } from 'react'
 import './App.css';
-import { BrowserRouter, Route, Switch, NavLink, Link } from 'react-router-dom'
+import { BrowserRouter, Route, Switch,  } from 'react-router-dom'
 import HomeWrapper from './components/HomeWrapper';
 import Login from './components/Authentication/Login';
 import Register from './components/Authentication/Register';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button'
-import styled from 'styled-components';
 import {Canvas} from './components/Drawing/Canvas'
 import NotebookContent from './components/Notebook/NotebookContent'
-import AuthenticationButtons from './components/Authentication/AuthenticationButtons';
+import NavBar from './components/NavBar'
+import { authenticationService } from './services/auth';
+import { UserProvider } from './contexts/UserProvider'
 
 
 function App() {
-  const StyledLink = styled(NavLink)`
-    text-decoration: none;
-    color: #000000;
-
-    &:focus, &:hover, &:visited, &:link, &:active {
-        text-decoration: none;
-    }
-  `;
+  const [isLogged, setIsLogged] = useState();
   
+  useEffect(() =>{
+    userHandler()
+  }, [])
+
+  function userHandler() {
+    setIsLogged(authenticationService.currentUserValue() === null ? false : true)
+  }
+
   return (
-    
-    <BrowserRouter >
-      <div className="AppHolder">
-        <header className="AppHeader">
-          <AppBar position="relative">
-            <Toolbar>
-              <Typography variant="h6" color="inherit" noWrap>
-                <StyledLink to="/">
-                  Web Notebook
-                </StyledLink>
-              </Typography>
-              <Button variant="outlined" color="secondary" component={Link} to="/canvas">
-                  Draw
-              </Button>
-              <Button variant="outlined" color="secondary" component={Link} to="/note">
-                  Notes
-              </Button>
-              <div id="authButtons">
-                <AuthenticationButtons/>
-              </div>
-            </Toolbar>
-          </AppBar>
-        </header>
-          <Switch>
-            <Route path='/' exact component={HomeWrapper}/>
-            <Route path='/login' component={Login}/>
-            <Route path='/register' component={Register}/>
-            <Route path='/canvas' component={Canvas}/>
-            <Route path='/note' component={NotebookContent}/>
-            {/* <Route path='/create/notebook' component={}/> */}
-          </Switch>
-      </div>
-    </BrowserRouter>
+    <UserProvider>
+      <BrowserRouter >
+        <div className="AppHolder">
+          <header className="AppHeader">
+            <NavBar userHandler={userHandler} isLogged={isLogged}/>
+          </header>
+            <Switch>
+              <Route path='/' exact component={HomeWrapper}/>
+              <Route path='/login' component={Login}/>
+              <Route path='/register' component={Register}/>
+              <Route path='/canvas' component={Canvas}/>
+              <Route path='/note' component={NotebookContent}/>
+              {/* <Route path='/create/notebook' component={}/> */}
+            </Switch>
+        </div>
+      </BrowserRouter>
+    </UserProvider>
   );
 }
 
