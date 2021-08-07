@@ -62,8 +62,6 @@ async function setNotebookData(){
   setuserBooks(data)
 }
 
-
-
   return (
     <React.Fragment>
       <CssBaseline />
@@ -81,7 +79,10 @@ async function setNotebookData(){
             <div className={classes.heroButtons}>
               <Grid container spacing={2} justify="center">
                 <Grid item>
-                  <Button variant="contained" color="primary" onClick={() => {setActivate(!activateCreate)}}>
+                  <Button variant="contained" color="primary" onClick={() => {
+                    setActivate(!activateCreate)
+                    notebookService.createNotebook()
+                    }}>
                     Create
                   </Button>
                   <CreateNotebook
@@ -101,7 +102,7 @@ async function setNotebookData(){
           {/* End hero unit */}
           <Grid container spacing={4}>{console.log(userBooks)}
             {userBooks === undefined ? 'Loading' : userBooks.map((Notebook) => (
-              <Grid item key={Notebook} xs={12} sm={6} md={4}>
+              <Grid item key={Notebook} xs={12} sm= {6} md={4}>
                 <Card className={classes.card}>
                   <CardMedia
                     className={classes.cardMedia}

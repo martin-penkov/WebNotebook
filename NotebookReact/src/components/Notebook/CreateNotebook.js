@@ -1,13 +1,14 @@
 import React, {useState} from 'react';
 import {Typography, TextField, Button} from '@material-ui/core';
+import {notebookService} from '../../services/notebookService'
 
 export default function CreateNotebook(props){
     const [title, setTitle] = useState('');
 
     function handleSubmit(event){
         event.preventDefault();
-
-    }
+        notebookService.createNotebook(title)
+    } 
 
     return (
         <form hidden={!props.activate}>

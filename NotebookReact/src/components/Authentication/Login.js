@@ -1,8 +1,9 @@
-import React from 'react'
+import { React, useState, useContext } from 'react'
 import { TextField, Typography, Button } from '@material-ui/core';
 import {authenticationService} from '../../services/auth'
 import styled from 'styled-components'
-
+import { AuthContext } from './../../contexts/AuthContext'
+import { useHistory } from "react-router";
 
 const StyledContainer = styled.div`
 margin: auto;
@@ -14,82 +15,70 @@ const StyledBox = styled.div`
 margin: 7px 7px 7px 7px;
 `;
 
-export default class Login extends React.Component{
-    
-    constructor(props){
-      super(props)
-      this.state = {
-        email: '',
-        password: ''
-      }
-      this.handleSubmit = this.handleSubmit.bind(this)
+export default function Login(props) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('')
+
+  const history = useHistory();
+  const { setUser } = useContext(AuthContext);
+
+  const validateForm = () => {
+      return this.state.email.length > 0 && this.state.password.length > 0;
   }
-    validateForm() {
-        return this.state.email.length > 0 && this.state.password.length > 0;
-    }
 
-    setEmail(input){
-      this.setState({email: input})
-    }
-    
-    setPassword(input){
-      this.setState({password: input})
-    }
-
-    async handleSubmit(event) {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        let response = await authenticationService.login(this.state.email, this.state.password)
+        let response = await authenticationService.login(email, password)
         console.log(authenticationService.currentUserValue())
         if(response){
-          this.props.history.push('/')
+          history.push('/')
         }
+        setUser(authenticationService.currentUserValue())
     }
 
-    render(){
-        return (
-          <StyledContainer>
-            <div className="Login">
-              <form>
-                <Typography variant="h5" style={{ margin: 8 }}>
+      return (
+        <StyledContainer>
+          <div className="Login">
+            <form>
+              <Typography variant="h5" style={{ margin: 8 }}>
+                Login
+              </Typography>
+              <StyledBox>
+                <TextField
+                  label="Email"
+                  variant="outlined"
+                  fullWidth
+                  className="form-input"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                />
+              </StyledBox>
+              <StyledBox>
+                <TextField
+                  label="Password"
+                  variant="outlined"
+                  fullWidth
+                  className="form-input"
+                  type="password"
+                  
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                />
+              </StyledBox>
+              <StyledBox>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  className="form-input"
+                  size="large"
+                  onClick={handleSubmit}
+                >
                   Login
-                </Typography>
-                <StyledBox>
-                  <TextField
-                    label="Email"
-                    variant="outlined"
-                    fullWidth
-                    className="form-input"
-                    value={this.state.email}
-                    onChange={e => this.setEmail(e.target.value)}
-                  />
-                </StyledBox>
-                <StyledBox>
-                  <TextField
-                    label="Password"
-                    variant="outlined"
-                    fullWidth
-                    className="form-input"
-                    type="password"
-                    
-                    value={this.state.password}
-                    onChange={e => this.setPassword(e.target.value)}
-                  />
-                </StyledBox>
-                <StyledBox>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                    className="form-input"
-                    size="large"
-                    onClick={this.handleSubmit}
-                  >
-                    Login
-                  </Button>
-                </StyledBox>
-              </form>
-            </div>
-            </StyledContainer>
-          );
-    }
+                </Button>
+              </StyledBox>
+            </form>
+          </div>
+          </StyledContainer>
+        );
 }

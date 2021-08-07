@@ -15,9 +15,7 @@ async function getUserItems(){
 }
 
 function createNotebook(title){
-    let username = JSON.parse(auth.currentUserValue).username
-
-    return fetch(`${API_URL}Notebook/Create`, reqOptions.postAuthReqOption({username: username, title: title}))
+    return fetch(`/Notebook/Create`, reqOptions.postAuthReqOption({title: title}))
             .then(response => response.json())
             .then(
                 response => console.log(response)
