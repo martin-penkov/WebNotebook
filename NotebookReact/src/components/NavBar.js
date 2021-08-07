@@ -7,7 +7,7 @@ import { NavLink, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import {authenticationButtons} from '../components/Authentication/AuthenticationButtons';
 import {useContext} from 'react';
-import { UserProvider } from '../contexts/UserProvider';
+import {AuthContext} from './../contexts/AuthContext'
 
 
 export default function NavBar(props)  {
@@ -20,7 +20,8 @@ export default function NavBar(props)  {
     }
   `;
 
-    const auth = useContext(UserProvider);
+    const user = useContext(AuthContext);
+    console.log(user)
 
     return (
         <AppBar position="relative">
@@ -38,9 +39,9 @@ export default function NavBar(props)  {
               </Button>
               <div id="authButtons">
                 {
-                  auth === null ?
-                   authenticationButtons.loginRegisterButtons(props) 
-                   : authenticationButtons.logoutButton(props)
+                  user.user === null ? 
+                   authenticationButtons.loginRegisterButtons(props)
+                   : authenticationButtons.LogoutButton(props)
                 }
               </div>
             </Toolbar>

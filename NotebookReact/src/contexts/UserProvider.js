@@ -1,20 +1,15 @@
-import { useState, createContext } from 'react'
+import { useState, createContext, useMemo } from 'react'
 import { authenticationService } from './../services/auth';
+import { AuthContext } from './../contexts/AuthContext'
 
 export const UserProvider = ({ children }) => {
     const [user, setUser] = useState( authenticationService.currentUserValue() );
-    const AuthContext = createContext({});
+    // const AuthContext = createContext({user, setUser});
     
-      const logout = () => {
-        authenticationService.logout()
-      };
-
-      const updateLoginStatus = () => {
-          setUser(authenticationService.currentUserValue())
-      }
+    const value = useMemo(() => ({ user, setUser }), [user, setUser]);
 
     return (
-      <AuthContext.Provider value={{ user, logout, updateLoginStatus }}>
+      <AuthContext.Provider value={value}>
         {children}
       </AuthContext.Provider>
     );

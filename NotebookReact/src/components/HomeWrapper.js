@@ -1,34 +1,20 @@
-import React from 'react'
-import {authenticationService as auth, authenticationService} from '../services/auth'
+import { React, useContext} from 'react'
 import LandingPage from './LandingPage'
 import Dashboard from './Dashboard'
+import {AuthContext} from './../contexts/AuthContext'
 
-export default class HomeWrapper extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = { 'userValue': null }
-    }
+export default function HomeWrapper() {
+    const user = useContext(AuthContext);
 
-    checkUserLoginStatus(){
-        return auth.currentUserValue()
-    }
 
-    componentWillMount(){
-        // setUserValue(authenticationService.currentUserValue)
-        // setReturnAuth(userValue === undefined ? authenticationButtons : logoutButton)
-        this.setState({ 'userValue': authenticationService.currentUserValue })
+    if(user.user !== null){
+        //jwt auth token found in browser local storage
+        return (
+        <div className='personDashboard'>
+            <Dashboard/>
+        </div>
+        )
     }
-
-    render(){
-        if(this.checkUserLoginStatus()){
-            //jwt auth token found in browser local storage
-            return (
-            <div className='personDashboard'>
-                <Dashboard isLogged={this.state.userValue}/>
-            </div>
-            )
-        }
-        //show landing page with options for user login...
-        return <LandingPage/>
-    }
+    //show landing page with options for user login...
+    return <LandingPage/>
 }
