@@ -12,6 +12,7 @@ import Container from '@material-ui/core/Container';
 import img from "../static/paperBg.png"
 import CreateNotebook from './Notebook/CreateNotebook';
 import { notebookService } from '../services/notebookService';
+import { CircularProgress } from '@material-ui/core';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -70,8 +71,8 @@ async function setNotebookData(){
         {/* Hero unit */}
         <div className={classes.heroContent}>
           <Container maxWidth="sm">
-            <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-              Your Notebooks
+            <Typography component="h2" variant="h2" align="center" color="textPrimary" gutterBottom>
+              Your Library
             </Typography>
             <Typography variant="h5" align="center" color="textSecondary" paragraph>
 
@@ -101,7 +102,7 @@ async function setNotebookData(){
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={4}>{console.log(userBooks)}
-            {userBooks === undefined ? 'Loading' : userBooks.map((Notebook) => (
+            {userBooks === undefined ? <CircularProgress /> : userBooks.map((Notebook) => (
               <Grid item key={Notebook} xs={12} sm= {6} md={4}>
                 <Card className={classes.card}>
                   <CardMedia

@@ -7,3 +7,10 @@ html, body {
     height: 100%;
     margin: 0;
   }
+
+
+#authenticationBtn {
+    position: absolute;
+    top: 50%;
+    left: 40%;
+}
