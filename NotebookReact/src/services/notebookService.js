@@ -1,5 +1,3 @@
-import {authenticationService as auth} from './auth';
-import {API_URL} from "../config";
 import {requestOptions as reqOptions} from '../helpers/requestOptions';
 
 export const notebookService = {

@@ -1,7 +1,7 @@
 import { React, useContext} from 'react'
 import LandingPage from './LandingPage'
 import Dashboard from './Dashboard'
-import {AuthContext} from './../contexts/AuthContext'
+import {AuthContext} from '../../contexts/AuthContext'
 
 export default function HomeWrapper() {
     const user = useContext(AuthContext);

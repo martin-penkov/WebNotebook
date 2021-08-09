@@ -4,7 +4,6 @@ import { AuthContext } from './../contexts/AuthContext'
 
 export const UserProvider = ({ children }) => {
     const [user, setUser] = useState( authenticationService.currentUserValue() );
-    // const AuthContext = createContext({user, setUser});
     
     const value = useMemo(() => ({ user, setUser }), [user, setUser]);
 

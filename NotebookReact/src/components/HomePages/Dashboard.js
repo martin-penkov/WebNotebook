@@ -9,9 +9,9 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import img from "../static/paperBg.png"
-import CreateNotebook from './Notebook/CreateNotebook';
-import { notebookService } from '../services/notebookService';
+import img from "../../static/paperBg.png"
+import CreateNotebook from '../Notebook/CreateNotebook';
+import { notebookService } from '../../services/notebookService';
 import { CircularProgress } from '@material-ui/core';
 
 

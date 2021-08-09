@@ -1,7 +1,5 @@
 import {API_URL} from "../config";
 import {requestOptions} from '../helpers/requestOptions'
-import { AuthContext } from './../contexts/AuthContext'
-import { useContext } from 'react'
 
 
 export const authenticationService = {
@@ -64,9 +62,5 @@ function login(username, password) {
 }
 
 function Logout() {
-    //const { user, setUser } = useContext(AuthContext);
-    // remove user from local storage to log user 
     localStorage.removeItem('currentUser');
-//tuk
-    //setUser(null)
 }

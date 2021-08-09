@@ -2,18 +2,18 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button'
-import { authenticationService } from './../services/auth';
+import { authenticationService } from '../../services/auth';
 import { NavLink, Link } from 'react-router-dom';
 import styled from 'styled-components';
-import {authenticationButtons} from '../components/Authentication/AuthenticationButtons';
+import {authenticationButtons} from '../Authentication/AuthenticationButtons';
 import {useContext} from 'react';
-import {AuthContext} from './../contexts/AuthContext'
+import {AuthContext} from '../../contexts/AuthContext'
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import {useState} from 'react'
-import './../components/NavBar.css';
-import { SidebarData } from './../components/SideBarData'
+import '../../styleSheets/NavBar.css';
+import { SidebarData } from './SideBarData'
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 

@@ -1,4 +1,3 @@
-import { React } from 'react'
 import { requestOptions as reqOptions} from '../helpers/requestOptions'
 
 export const imageService = {

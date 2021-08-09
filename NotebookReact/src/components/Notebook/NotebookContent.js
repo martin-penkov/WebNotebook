@@ -1,9 +1,7 @@
 import React, {useState} from 'react';
-import {Typography, TextField, Button} from '@material-ui/core';
 import { Editor } from '@tinymce/tinymce-react'; 
 
 export default function NotebookContent() {
-    const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     
     function handleEditorChange(e) {
