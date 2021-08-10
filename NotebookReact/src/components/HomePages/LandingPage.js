@@ -1,5 +1,5 @@
 import React from 'react'
-import { authenticationButtons } from './Authentication/AuthenticationButtons'
+import { authenticationButtons } from '../Authentication/AuthenticationButtons'
 
 export default function LandingPage(props){
     return (

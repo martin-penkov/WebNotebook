@@ -14,3 +14,8 @@ html, body {
     top: 50%;
     left: 40%;
 }
+
+.text-link {
+    color: inherit;
+    text-decoration: inherit;
+}

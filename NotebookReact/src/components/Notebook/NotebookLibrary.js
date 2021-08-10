@@ -9,60 +9,64 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import img from "../static/paperBg.png"
-import CreateNotebook from './Notebook/CreateNotebook';
-import { notebookService } from '../services/notebookService';
+import img from "../../static/paperBg.png"
+import CreateNotebook from '../Notebook/CreateNotebook';
+import { notebookService } from '../../services/notebookService';
 import { CircularProgress } from '@material-ui/core';
+
 
 
 const useStyles = makeStyles((theme) => ({
   
-  icon: {
-    marginRight: theme.spacing(2),
-  },
-  heroContent: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(8, 0, 6),
-  },
-  heroButtons: {
-    marginTop: theme.spacing(4),
-  },
-  cardGrid: {
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
-  },
-  card: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  cardMedia: {
-    paddingTop: '56.25%', // 16:9
-    height: 0
-  },
-  cardContent: {
-    flexGrow: 1,
-  },
-  footer: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(6),
-  },
-}));
+    icon: {
+      marginRight: theme.spacing(2),
+    },
+    heroContent: {
+      backgroundColor: theme.palette.background.paper,
+      padding: theme.spacing(8, 0, 6),
+    },
+    heroButtons: {
+      marginTop: theme.spacing(4),
+    },
+    cardGrid: {
+      paddingTop: theme.spacing(8),
+      paddingBottom: theme.spacing(8),
+    },
+    card: {
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+    },
+    cardMedia: {
+      paddingTop: '56.25%', // 16:9
+      height: 0
+    },
+    cardContent: {
+      flexGrow: 1,
+    },
+    footer: {
+      backgroundColor: theme.palette.background.paper,
+      padding: theme.spacing(6),
+    },
+  }));
 
-export default function Dashboard() {
-  const classes = useStyles();
-  const [activateCreate, setActivate] = useState(false)
-  const [userBooks, setuserBooks] = useState();
 
-  useEffect(() => {
-    setNotebookData()
-  }, [])
 
-async function setNotebookData(){
-  let data = await notebookService.getUserItems()
-  setuserBooks(data)
-}
 
+  export default function NotebookLibrary() {
+    const classes = useStyles();
+    const [activateCreate, setActivate] = useState(false)
+    const [userBooks, setuserBooks] = useState();
+
+    useEffect(() => {
+        setNotebookData()
+      }, [])
+    
+    async function setNotebookData(){
+      let data = await notebookService.getUserItems()
+      setuserBooks(data)
+    }
+    
   return (
     <React.Fragment>
       <CssBaseline />
@@ -72,7 +76,7 @@ async function setNotebookData(){
         <div className={classes.heroContent}>
           <Container maxWidth="sm">
             <Typography component="h2" variant="h2" align="center" color="textPrimary" gutterBottom>
-              Your Library
+              Your Notebooks
             </Typography>
             <Typography variant="h5" align="center" color="textSecondary" paragraph>
 
@@ -83,6 +87,7 @@ async function setNotebookData(){
                   <Button variant="contained" color="primary" onClick={() => {
                     setActivate(!activateCreate)
                     notebookService.createNotebook()
+                    setNotebookData()
                     }}>
                     Create
                   </Button>
@@ -135,12 +140,14 @@ async function setNotebookData(){
         </Container>
       </main>
       {/* Footer */}
-      <footer className={classes.footer}>
+      {/* <footer className={classes.footer}>
         <Typography variant="h6" align="center" gutterBottom>
           Footer
         </Typography>
-      </footer>
+      </footer> */}
       {/* End footer */}
     </React.Fragment>
-  );
+    )
+
+    
 }

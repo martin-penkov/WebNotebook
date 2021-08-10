@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button'
 import { Link } from 'react-router-dom'
 import { AuthContext } from './../../contexts/AuthContext'
 
-let loginRegisterButtons = (props) => {
+let loginRegisterButtons = () => {
     
 
     return(
@@ -20,11 +20,11 @@ let loginRegisterButtons = (props) => {
 }
     
 
-let LogoutButton = (props) => {
+let LogoutButton = () => {
      const { setUser } = useContext(AuthContext);
 
     return (
-        <Button variant="outlined" color="secondary" component={Link} to="/" onClick={() => {
+        <Button variant="outlined" color="inherit" component={Link} to="/" onClick={() => {
             setUser(null);
             authenticationService.Logout();
             }}>

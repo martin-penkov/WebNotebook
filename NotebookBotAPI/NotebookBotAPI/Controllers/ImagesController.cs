@@ -77,7 +77,22 @@ namespace NotebookBotAPI.Controllers
         }
 
         [Authorize]
+        [HttpGet]
+        [Route(nameof(GetImageIDsUser))]
+        public async Task<ActionResult<List<int>>> GetImageIDsUser()
+        {
+            var userId = GetUserContext().Id;
+            var listIds = _context.Images
+                .Where(x => x.UserId == userId)
+                .Select(x => (int)x.Id)
+                .ToList();
+
+            return listIds;
+        }
+
+        [Authorize]
         [HttpPost]
+        [Route(nameof(PostImageRaw))]
         public async Task<ActionResult<Image>> PostImageRaw(ImageRawDataInput imgData)
         {
             DateTime parsedDate = DateTime.Parse(imgData.DateSent);
@@ -93,7 +108,7 @@ namespace NotebookBotAPI.Controllers
 
             _context.Images.Add(image);
             await _context.SaveChangesAsync();
-            return CreatedAtAction("GetImage", new { id = image.Id }, image);
+            return Ok();
         }
 
             [HttpPost]

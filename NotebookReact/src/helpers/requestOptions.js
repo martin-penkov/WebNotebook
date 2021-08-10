@@ -35,7 +35,7 @@ function postReqOption(body){
 
 function postAuthReqOption(body){
     let jwtToken = auth.currentUserValue().token
-    return ({
+    let returnobj = ({
         method: 'POST',
         headers: { 
             'Content-Type': 'application/json',
@@ -43,6 +43,9 @@ function postAuthReqOption(body){
         },
         body: JSON.stringify(body)
     })
+
+    console.log(returnobj)
+    return returnobj
 }
 
 //add delete, put req options only with auth permission
