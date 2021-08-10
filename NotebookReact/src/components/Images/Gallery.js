@@ -76,6 +76,12 @@ export default function Gallery(){
 
     return(
         <div>
+            <div className="imageUploader">
+                <input type="file"
+                    id="avatar" name="avatar"
+                    accept="image/png, image/jpeg"/>
+                <Button color="inherit" onClick={(e) => imageService.uploadFromFileManager(e)}>Upload</Button>
+            </div>
             <div className={classes.root}>
                 <GridList cols={3}>
                     className={classes.gridList}

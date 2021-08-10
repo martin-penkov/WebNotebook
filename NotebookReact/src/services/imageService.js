@@ -5,7 +5,8 @@ export const imageService = {
     exportCanvas,
     saveCanvas,
     saveImage,
-    getUserImages
+    getUserImages,
+    uploadFromFileManager
 }
 
 function exportCanvas(){
@@ -44,4 +45,17 @@ async function getUserImages(){
     // if (!data.ok) {
     //     throw Error("Couldn't fetch user images.")
     // }
+}
+
+function uploadFromFileManager(e){
+    let reader = new FileReader() 
+    reader.readAsDataURL(e.currentTarget.parentElement.querySelector("input").files[0])
+    
+    
+    // reader.onload = () => {      
+    //     this.setState({        
+    //     queryImage: reader.result      
+    //     })    
+    // }
+    
 }
