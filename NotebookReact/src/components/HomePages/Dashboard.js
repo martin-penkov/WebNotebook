@@ -4,8 +4,15 @@ import '../../styleSheets/Dashboard.css'
 import noteImage from '../../static/noteImage.png'
 import cameraImage from '../../static/cameraIcon.jpg'
 import drawImage from '../../static/drawImage.svg'
+import useDelayRouteExit from "delay-react-route-exit";
+import { useHistory } from 'react-router-dom';
 
 export default function Dashboard() {
+  const history = useHistory();
+
+  const isExitingRoute = useDelayRouteExit(600, () => {
+
+  });
 
   function createRipple(event) {
     const button = event.currentTarget;
@@ -25,8 +32,10 @@ export default function Dashboard() {
     if (ripple) {
       ripple.remove();
     }
-
+    
     button.appendChild(circle);
+    
+    history.push('/'+button.children[0].innerHTML)
   }
 
   return (
@@ -34,20 +43,23 @@ export default function Dashboard() {
       <CssBaseline />
         <main>
           <div class="wrapper-flex">
-            <div class="container" onClick={(event) => {createRipple(event)}}>
-              <img src={drawImage} alt='profile image' class="profile-img"/>
-              <h1 class="name">Canvas</h1>
-            </div>
+              <div class="container" onClick={(event) => {createRipple(event)}}>
+                <h1 hidden>canvas</h1>
+                <img src={drawImage} alt='profile image' class="profile-img"/>
+                <p class="name">Canvas</p>
+              </div>
             
-            <div class="container" onClick={(event) => {createRipple(event)}}>
-              <img src={noteImage} alt='profile image' class="profile-img"/>
-              <p class="name">Notes</p>
-            </div>
-
-            <div class="container" onClick={(event) => {createRipple(event)}}>
-              <img src={cameraImage} alt='profile image' class="profile-img"/>
-              <p class="name">Images</p>
-            </div>
+              <div class="container middleButton" onClick={(event) => {createRipple(event)}}>
+                  <h1 hidden>note</h1>
+                  <img src={noteImage} alt='profile image' class="profile-img"/>
+                  <p class="name">Notes</p> 
+              </div>
+            
+              <div class="container" onClick={(event) => {createRipple(event)}}>
+                <h1 hidden>image</h1>
+                <img src={cameraImage} alt='profile image' class="profile-img"/>
+                <p class="name">Images</p>
+              </div>
           </div>
         </main>
     </React.Fragment>
