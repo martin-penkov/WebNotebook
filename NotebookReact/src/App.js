@@ -8,6 +8,7 @@ import {Canvas} from './components/Drawing/Canvas'
 import NotebookContent from './components/Notebook/NotebookContent'
 import NavBar from './components/Navigation/NavBar'
 import { UserProvider } from './contexts/UserProvider'
+import Gallery from './components/Images/Gallery'
 
 
 class App extends Component {
@@ -26,6 +27,7 @@ class App extends Component {
                     <Route path='/register' component={Register}/>
                     <Route path='/canvas' component={Canvas}/>
                     <Route path='/note' component={NotebookContent}/>
+                    <Route path='/gallery' component={Gallery}/>
                 </Switch>
             </div>
           </UserProvider>

@@ -56,7 +56,7 @@ export default function Dashboard() {
               </div>
             
               <div class="container" onClick={(event) => {createRipple(event)}}>
-                <h1 hidden>image</h1>
+                <h1 hidden>gallery</h1>
                 <img src={cameraImage} alt='profile image' class="profile-img"/>
                 <p class="name">Images</p>
               </div>
