@@ -11,6 +11,7 @@ import { UserProvider } from './contexts/UserProvider'
 import Gallery from './components/Images/Gallery'
 import { ThemeProvider } from '@material-ui/core'
 import { createMuiTheme } from '@material-ui/core/styles';
+import Task from './components/Task/Task'
 
 const theme = createMuiTheme({
   palette: {
@@ -47,6 +48,7 @@ class App extends Component {
                   <Route path='/canvas' component={Canvas}/>
                   <Route path='/note' component={NotebookContent}/>
                   <Route path='/gallery' component={Gallery}/>
+                  <Route path='/tasks' component={Task}/>
                 </Switch>
             </div>
           </UserProvider>

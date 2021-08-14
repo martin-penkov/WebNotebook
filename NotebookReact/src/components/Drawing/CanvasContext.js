@@ -56,7 +56,12 @@ function prepareCanvas() {
 };
 
 function resizeCanvas(){
-  let canvas = document.getElementById('canvas2d')
-  canvas.width = window.innerWidth - 60;
-  canvas.height = window.innerHeight - 120;
+  try {
+    let canvas = document.getElementById('canvas2d')
+    canvas.width = window.innerWidth - 60;
+    canvas.height = window.innerHeight - 120;
+  } catch (error) {
+    
+  }
+  
 }

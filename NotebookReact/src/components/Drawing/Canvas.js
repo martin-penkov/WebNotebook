@@ -14,6 +14,9 @@ export class Canvas extends React.Component {
     this.setState({ canvasCtx: canvasObj.canvasCtx, canvasRef: canvasObj.canvasRef })
   }
 
+  componentWillUnmount(){
+    window.removeEventListener('onresize', CanvasProvider.resizeCanvas)
+  }
 
   render (){
     return (

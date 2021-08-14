@@ -23,5 +23,6 @@ namespace NotebookBotAPI.Models
         public DbSet<Image> Images { get; set; }
         public DbSet<Notebook> Notebooks { get; set; }
         public DbSet<Note> Notes { get; set; }
+        public DbSet<Task> Tasks { get; set; }
     }
 }
