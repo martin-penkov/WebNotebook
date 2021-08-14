@@ -1,9 +1,12 @@
+import { LaptopWindows } from "@material-ui/icons";
+
 export const CanvasProvider = {
   prepareCanvas,
   startDrawing,
   finishDrawing,
   draw,
-  clearCanvas
+  clearCanvas,
+  resizeCanvas
 }
 
 function startDrawing(contextRef, event) {
@@ -23,6 +26,7 @@ function draw(contextRef, isDrawing, event) {
     return;
   }
   const { offsetX, offsetY } = event.nativeEvent;
+  
   contextRef.lineTo(offsetX, offsetY);
   contextRef.stroke();
 };
@@ -35,16 +39,15 @@ function clearCanvas(canvasRef, canvasCtx) {
 function prepareCanvas() {
   const canvas = document.getElementById('canvas2d')
 
-  canvas.width = window.innerWidth * 2;
-  canvas.height = window.innerHeight * 2;
-  canvas.style.width = `${window.innerWidth}px`;
-  canvas.style.height = `${window.innerHeight}px`;
+  canvas.width = window.innerWidth - 60;
+  canvas.height = window.innerHeight - 120;
+  
 
   const context = canvas.getContext("2d")
-  context.scale(2, 2);
+  context.scale(1, 1);
   context.lineCap = "round";
   context.strokeStyle = "black";
-  context.lineWidth = 5;
+  context.lineWidth = 3;
   
   return {
     canvasCtx: context,
@@ -52,3 +55,13 @@ function prepareCanvas() {
   }
 };
 
+function resizeCanvas(){
+  try {
+    let canvas = document.getElementById('canvas2d')
+    canvas.width = window.innerWidth - 60;
+    canvas.height = window.innerHeight - 120;
+  } catch (error) {
+    
+  }
+  
+}

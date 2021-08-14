@@ -1,0 +1,12 @@
+canvas {
+    box-shadow: -3px 2px 9px 6px black;
+    border: 2px solid black;
+    cursor: crosshair;
+    margin: 30px 20px 0px 30px;
+    background-color: white;
+}
+
+#canvasWrapper {
+    height: 100%;
+    width: 100%;
+}

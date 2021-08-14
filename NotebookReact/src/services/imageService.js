@@ -21,13 +21,7 @@ function saveImage(){
 
 async function saveCanvas(){
     let canvasImgBase64 = exportCanvas();
-    let exportData = canvasImgBase64.substring("data:image/png;base64,".length)
-    let body = {
-        "ImageBase64String": exportData, 
-        "DateSent": (new Date(Date.now())).toJSON()
-    }
-    return fetch('/Images/PostImageRaw', reqOptions.postAuthReqOption(body))
-        .then(response => response.json())
+    sendBase64String(canvasImgBase64);
 }
 
 async function getUserImages(){
@@ -49,13 +43,22 @@ async function getUserImages(){
 
 function uploadFromFileManager(e){
     let reader = new FileReader() 
-    reader.readAsDataURL(e.currentTarget.parentElement.querySelector("input").files[0])
-    
-    
-    // reader.onload = () => {      
-    //     this.setState({        
-    //     queryImage: reader.result      
-    //     })    
-    // }
-    
+
+    var htmlelemtnt = e.currentTarget.parentElement.querySelector("input").files[0]
+    reader.readAsDataURL(htmlelemtnt)
+    reader.onload = () => {
+        sendBase64String(reader.result)
+    }
+}
+
+function sendBase64String(base64Data){
+    var base64result = base64Data.split(',')[1];
+
+    let body = {
+        "ImageBase64String": base64result, 
+        "DateSent": (new Date(Date.now())).toJSON()
+    }
+
+    fetch('/Images/PostImageRaw', reqOptions.postAuthReqOption(body))
+        .then(response => response.json())
 }
