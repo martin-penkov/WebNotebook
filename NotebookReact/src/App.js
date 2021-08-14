@@ -37,21 +37,20 @@ class App extends Component {
         <BrowserRouter >
           <UserProvider>
             <div className="AppHolder">
-              <header className="AppHeader">
-                <NavBar/>
-              </header>
+                <header className="AppHeader">
+                  <NavBar/>
+                </header>
                 <Switch>
-                    <Route path='/' exact component={HomeWrapper}/>
-                    <Route path='/login' component={Login}/>
-                    <Route path='/register' component={Register}/>
-                    <Route path='/canvas' component={Canvas}/>
-                    <Route path='/note' component={NotebookContent}/>
-                    <Route path='/gallery' component={Gallery}/>
+                  <Route path='/' exact component={HomeWrapper}/>
+                  <Route path='/login' component={Login}/>
+                  <Route path='/register' component={Register}/>
+                  <Route path='/canvas' component={Canvas}/>
+                  <Route path='/note' component={NotebookContent}/>
+                  <Route path='/gallery' component={Gallery}/>
                 </Switch>
             </div>
           </UserProvider>
         </BrowserRouter>
-        
       </ThemeProvider>
     )
   }
