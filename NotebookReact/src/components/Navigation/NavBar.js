@@ -16,6 +16,7 @@ import '../../styleSheets/NavBar.css';
 import { SidebarData } from './SideBarData'
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import NavButtons from './NavButtons'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,7 +44,7 @@ export default function NavBar(props)  {
 
     const StyledLink = styled(NavLink)`
     text-decoration: none;
-    color: #000000;
+    color: white;
 
     &:focus, &:hover, &:visited, &:link, &:active {
         text-decoration: none;
@@ -64,18 +65,8 @@ export default function NavBar(props)  {
                   Web Notebook
                 </StyledLink>
               </Typography>
-              <Button className={classes.button} variant="outlined" color="inherit" component={Link} to="/canvas">
-                  Draw
-              </Button>
-              <Button variant="outlined" color="inherit" component={Link} to="/note">
-                  Notes
-              </Button>
-              <div id="authButtons">
-                {
-                  user.user !== null &&
-                   authenticationButtons.LogoutButton(props)
-                }
-              </div>
+              
+              <NavButtons></NavButtons>
 
               <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
                 <ul className='nav-menu-items' onClick={showSidebar}>

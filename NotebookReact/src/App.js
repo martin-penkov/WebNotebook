@@ -9,12 +9,31 @@ import NotebookContent from './components/Notebook/NotebookContent'
 import NavBar from './components/Navigation/NavBar'
 import { UserProvider } from './contexts/UserProvider'
 import Gallery from './components/Images/Gallery'
+import { ThemeProvider } from '@material-ui/core'
+import { createMuiTheme } from '@material-ui/core/styles';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#1b5e20',
+      light: '#4c8c4a',
+      dark: '#003300',
+      contrastText: '#fafafa',
+    },
+    secondary: {
+      main: '#a5d6a7',
+      light: '#d7ffd9',
+      dark: '#75a478',
+      contrastText: '#212121',
+    },
+  },
+});
 
 
 class App extends Component {
   render(){
     return (
-
+      <ThemeProvider theme={theme}>
         <BrowserRouter >
           <UserProvider>
             <div className="AppHolder">
@@ -32,6 +51,8 @@ class App extends Component {
             </div>
           </UserProvider>
         </BrowserRouter>
+        
+      </ThemeProvider>
     )
   }
 }

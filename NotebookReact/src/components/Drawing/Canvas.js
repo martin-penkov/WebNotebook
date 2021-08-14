@@ -1,6 +1,6 @@
 import React from "react";
 import {CanvasProvider} from "./CanvasContext";
-import SideBar from '../Drawing/SideBar'
+import '../../styleSheets/Canvas.css'
 
 export class Canvas extends React.Component {
   constructor(props){
@@ -9,6 +9,7 @@ export class Canvas extends React.Component {
   }
   
   componentDidMount(){
+    window.onresize = CanvasProvider.resizeCanvas
     let canvasObj = CanvasProvider.prepareCanvas()
     this.setState({ canvasCtx: canvasObj.canvasCtx, canvasRef: canvasObj.canvasRef })
   }
@@ -17,8 +18,6 @@ export class Canvas extends React.Component {
   render (){
     return (
       <div id="canvasWrapper">
-        <SideBar/>
-        
         <canvas id="canvas2d"
           onMouseDown={(e) => {
             CanvasProvider.startDrawing(this.state.canvasCtx, e);
