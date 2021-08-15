@@ -35,9 +35,10 @@ export default function Task(props) {
     setTaskList(data)
   }
 
-  function addTodo(text, targetDate){
+  async function addTodo(text, targetDate){
     // make server request => add task
-    taskService.addTask(text, targetDate, collectTaskList)
+    await taskService.addTask(text, targetDate)
+    collectTaskList()
   }
   // Handle remove
   function handleRemove(id){
