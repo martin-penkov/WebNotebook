@@ -24,14 +24,20 @@ export default function Task(props) {
 
     useEffect(() => {
         //make server request => get all tasks for current user
-      setTaskList(taskService.getUserTasks())
+      collectTaskList()
 
     }, [])
     const classes = useStyles();
 
+
+  let collectTaskList = async function(){
+    let data = await taskService.getUserTasks();
+    setTaskList(data)
+  }
+
   function addTodo(text, targetDate){
     // make server request => add task
-    taskService.addTask(text, targetDate)
+    taskService.addTask(text, targetDate, collectTaskList)
   }
   // Handle remove
   function handleRemove(id){
@@ -41,7 +47,7 @@ export default function Task(props) {
 
   function formSubmitHandler(e) {
     e.preventDefault();
-    addTodo(textInput);
+    addTodo(textInput, dateInput);
   }
 
     return (
@@ -54,14 +60,21 @@ export default function Task(props) {
               type="datetime-local"
               defaultValue="2021-08-21T10:30"
               className={classes.textField}
+              onChange={(e) => setDateInput(e.target.value)}
               InputLabelProps={{
                 shrink: true,
               }}
             />
-            <input className="form-control col-md-12"/>
+            <input className="form-control col-md-12" onChange={(e) => setTextInput(e.target.value)}/>
             <br />
             <button type='submit'>Add Task</button>
         </form>
+
+        <ul>
+          {taskList.length !== 0 && taskList.map((el) => {
+            return (<li key={el.id}>{el.text} untill {el.targetDate}</li>)
+          })}
+        </ul>
       </div>
     );
   

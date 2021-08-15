@@ -14,13 +14,13 @@ async function getUserTasks() {
     return response
 }
 
-function addTask(text, targetDate){
-    let parsedDate = (new Date(targetDate)).toJSON()
+function addTask(text, inputDate, refreshFunction){
+    let targetDate = (new Date(inputDate)).toJSON()
 
-    return fetch(`/Tasks/AddUserTask`, reqOptions.postAuthReqOption({text, parsedDate}))
+    return fetch(`/Tasks/AddUserTask`, reqOptions.postAuthReqOption({text, targetDate}))
             .then(response => response.json())
             .then(
-                response => console.log(response)
+                response => refreshFunction()
             )
 }
 

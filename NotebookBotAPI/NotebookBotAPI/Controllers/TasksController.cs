@@ -30,11 +30,17 @@ namespace NotebookBotAPI.Controllers
         [Authorize]
         [HttpGet]
         [Route(nameof(GetUserTasks))]
-        public async Task<ActionResult<List<Models.Task>>> GetUserTasks()
+        public async Task<ActionResult<List<TaskExportModel>>> GetUserTasks()
         {
             var userId = GetUserContext().Id;
             var userTasks = _context.Tasks
                 .Where(x => x.UserId == userId)
+                .Select(x => new TaskExportModel()
+                {
+                    Id = x.Id,
+                    Text = x.Text,
+                    TargetDate = x.TargetDate
+                })
                 .ToList();
 
             return userTasks;
@@ -55,7 +61,7 @@ namespace NotebookBotAPI.Controllers
             };
 
             _context.Tasks.Add(task);
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
             return Ok();
         }
 

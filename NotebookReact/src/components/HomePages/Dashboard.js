@@ -4,15 +4,10 @@ import '../../styleSheets/Dashboard.css'
 import noteImage from '../../static/noteImage.png'
 import cameraImage from '../../static/cameraIcon.jpg'
 import drawImage from '../../static/drawImage.svg'
-import useDelayRouteExit from "delay-react-route-exit";
 import { useHistory } from 'react-router-dom';
 
 export default function Dashboard() {
   const history = useHistory();
-
-  const isExitingRoute = useDelayRouteExit(600, () => {
-
-  });
 
   function createRipple(event) {
     const button = event.currentTarget;
