@@ -19,3 +19,6 @@ html, body {
     text-decoration: inherit;
 }
 
+.imageUploader{
+    margin:  1.5rem;
+}

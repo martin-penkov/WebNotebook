@@ -17,7 +17,9 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
+
 import DeleteIcon from '@material-ui/icons/Delete';
+import PhotoCamera from '@material-ui/icons/PhotoCamera';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -45,6 +47,9 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: "#c44b3e",
         color: "#f5f5f5",
         marginLeft: "1rem"
+    },
+    input: {
+        display: 'none'
     }
   }));
 
@@ -86,13 +91,24 @@ export default function Gallery(){
         //disable del button
     }
 
+    async function handleUpload(e, refreshFunction){
+        imageService.uploadFromFileManager(e, refreshFunction)
+    }
+
     return(
         <div>
             <div className="imageUploader">
-                <input type="file"
-                    id="avatar" name="avatar"
-                    accept="image/png, image/jpeg"/>
-                <Button color="inherit" onClick={(e) => imageService.uploadFromFileManager(e)}>Upload</Button>
+                <label >
+                    <Button onClick={(e) => handleUpload(e, setImageFunc)} variant="contained" color="primary" component="span">
+                    Upload
+                    </Button>
+                </label>
+                <input accept="image/*" className={classes.input} id="icon-button-file" type="file" />
+                <label htmlFor="icon-button-file">
+                    <IconButton color="primary" aria-label="upload picture" component="span">
+                    <PhotoCamera />
+                    </IconButton>
+                </label>
             </div>
             <div className={classes.root}>
                 <GridList cols={3}>
