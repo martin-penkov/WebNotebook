@@ -4,7 +4,7 @@ import { API_URL } from '../config'
 export const imageService = {
     exportCanvas,
     saveCanvas,
-    saveImage,
+    removeImage,
     getUserImages,
     uploadFromFileManager
 }
@@ -15,7 +15,8 @@ function exportCanvas(){
     return dataUrl
 }
 
-function saveImage(){
+async function removeImage(id){
+    await fetch(`/Images/${id}`, reqOptions.deleteAuthReqOption())
 
 }
 

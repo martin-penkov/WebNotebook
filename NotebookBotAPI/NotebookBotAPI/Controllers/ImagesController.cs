@@ -143,6 +143,7 @@ namespace NotebookBotAPI.Controllers
         }
 
         // DELETE: api/Images/5
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteImage(int id)
         {
@@ -151,6 +152,11 @@ namespace NotebookBotAPI.Controllers
             {
                 return NotFound();
             }
+            //check if task has been created by same user
+            if (image.UserId != GetUserContext().Id)
+                return BadRequest(new ArgumentException("Selected image does not belong to same user"));
+
+            
 
             _context.Images.Remove(image);
             await _context.SaveChangesAsync();

@@ -22,6 +22,10 @@ async function addTask(text, inputDate){
             
 }
 
-function removeTask(){
+async function removeTask(id){
+    let promise = await fetch(`/Tasks/RemoveById/${id}`, reqOptions.deleteAuthReqOption())
 
+    let response = await promise.json()
+
+    return response
 }

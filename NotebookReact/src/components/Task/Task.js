@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { taskService } from '../../services/taskService';
 import DatePicker from './DatePicker'
 import '../../styleSheets/Task.css'
+import Button from '@material-ui/core/Button';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 // return (<a href="#" className="list-group-item" onClick={() => {remove(todo.id)}}>{todo.text}</a>);
 
@@ -37,9 +39,11 @@ export default function Task(props) {
     collectTaskList()
   }
   // Handle remove
-  function handleRemove(id){
+  async function handleRemove(id){
     // make server request => remove task
-
+    console.log(id)
+    await taskService.removeTask(id)
+    collectTaskList()
   }
 
   function filterTodos(){
@@ -74,13 +78,25 @@ export default function Task(props) {
 
       <div className="todoItems">
         <div className="filterMenu">
-          From: {<DatePicker filterFunc={filterTodos} setFunction={setStartDate} customWidth="100px"/>} untill {<DatePicker filterFunc={filterTodos} setFunction={setEndDate} customWidth="100px"/>}
+          From: {<DatePicker filterFunc={filterTodos} setFunction={setStartDate} customWidth="260px"/>}
+        </div>
+        <div>
+          Untill: {<DatePicker filterFunc={filterTodos} setFunction={setEndDate} customWidth="260px"/>}
         </div>
         <button onClick={filterTodos}>SORT</button>
         <ul>
           {taskList.length !== 0 && taskList.map((el) => {
             return el.show && (<li key={el.id}>
-              {el.text} untill {`${el.targetDate.getFullYear()}/${el.targetDate.getMonth() + 1}/${el.targetDate.getDate()} ${el.targetDate.getHours()}:${el.targetDate.getMinutes()}`}
+              <div className="taskTitleLi">{el.text}</div> untill {`${el.targetDate.getHours()}:${el.targetDate.getMinutes()}`}
+              <Button
+                className="listButton"
+                variant="contained"
+                color="#c44b3e"
+                startIcon={<DeleteIcon />}
+                onClick={() => handleRemove(el.id)}
+              >
+                Delete
+              </Button>
               </li>)
           })}
         </ul>

@@ -4,7 +4,8 @@ export const requestOptions = {
     getReqOption,
     getAuthReqOption,
     postReqOption,
-    postAuthReqOption    
+    postAuthReqOption,
+    deleteAuthReqOption 
 };
 
 function getReqOption() {
@@ -49,3 +50,13 @@ function postAuthReqOption(body){
 }
 
 //add delete, put req options only with auth permission
+function deleteAuthReqOption(){
+    let jwtToken = auth.currentUserValue().token
+    return ({
+        method: 'DELETE',
+        headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwtToken}`
+        }
+    })
+}

@@ -37,8 +37,9 @@
 
 .todolist input {  
     border: 0;
+    margin-top: 5px;
     border-bottom: 3px dashed #fdcb6e;
-    background-color: transparent;
+    background-color: white;
     font-family: "Architects Daughter", sans-serif;
     font-size: 1.3rem;
     padding: 10px 15px;
@@ -56,15 +57,33 @@
 }
 
 .todoItems {
-    margin: 50px 0 0 30px;
+    margin: 50px 30px 0 30px;
     background-color: white;
     border-radius: 20px;
 }
 
 .todoItems ul li {
-    text-align: left;   
+    display: block;
+    border-bottom-style: solid;
     margin: 20px 10px;
     font-size: 1.4rem;
     font-weight: 300;
     color: #494a4b;
+}
+
+.todoItems ul{
+    padding: 0 0 0 0;
+}
+
+.listButton {
+display: inline;
+margin-bottom: 1rem !important;
+margin-left: 5rem !important;
+background-color: #c44b3e !important;
+color: #f5f5f5 !important
+
+}
+
+.taskTitleLi{
+    font-weight: bold;
 }

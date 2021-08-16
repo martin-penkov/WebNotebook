@@ -1,5 +1,5 @@
 import Photo from './Photo'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { imageService } from '../../services/imageService'
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
@@ -17,6 +17,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
+import DeleteIcon from '@material-ui/icons/Delete';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -39,6 +40,11 @@ const useStyles = makeStyles(theme => ({
     title: {
       marginLeft: theme.spacing(2),
       flex: 1
+    },
+    deleteBtn: {
+        backgroundColor: "#c44b3e",
+        color: "#f5f5f5",
+        marginLeft: "1rem"
     }
   }));
 
@@ -52,6 +58,7 @@ export default function Gallery(){
     const classes = useStyles();
     const [selectedTile, setSelectedTile] = useState(null);
     const [images, setImages] = useState([])
+
 
     useEffect(() => {
         setImageFunc()
@@ -73,6 +80,11 @@ export default function Gallery(){
         setSelectedTile(null);
     };
 
+    async function handleDelete(){
+        await imageService.removeImage(selectedTile.id);
+        setImageFunc()
+        //disable del button
+    }
 
     return(
         <div>
@@ -124,7 +136,13 @@ export default function Gallery(){
                         <Button autoFocus color="inherit" onClick={handleClose}>
                             Download
                         </Button>
-                        <Button autoFocus color="red" onClick={handleClose}>
+                        <Button
+                            className={classes.deleteBtn}
+                            variant="contained"
+                            color="#c44b3e"
+                            startIcon={<DeleteIcon />}
+                            onClick={() => handleDelete()}
+                        >
                             Delete
                         </Button>
                     </Toolbar>
