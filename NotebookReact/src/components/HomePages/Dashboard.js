@@ -4,10 +4,16 @@ import '../../styleSheets/Dashboard.css'
 import noteImage from '../../static/noteImage.png'
 import cameraImage from '../../static/cameraIcon.jpg'
 import drawImage from '../../static/drawImage.svg'
+import todo from '../../static/todo.png'
 import { useHistory } from 'react-router-dom';
+import useDelayRouteExit from "delay-react-route-exit";
 
 export default function Dashboard() {
   const history = useHistory();
+
+  const isExitingRoute = useDelayRouteExit(600, () => {
+
+  });
 
   function createRipple(event) {
     const button = event.currentTarget;
@@ -50,10 +56,16 @@ export default function Dashboard() {
                   <p class="name">Notes</p> 
               </div>
             
-              <div class="container" onClick={(event) => {createRipple(event)}}>
+              <div class="container middleButton" onClick={(event) => {createRipple(event)}}>
                 <h1 hidden>gallery</h1>
                 <img src={cameraImage} alt='profile image' class="profile-img"/>
                 <p class="name">Images</p>
+              </div>
+
+              <div class="container" onClick={(event) => {createRipple(event)}}>
+                <h1 hidden>tasks</h1>
+                <img src={todo} alt='profile image' class="profile-img"/>
+                <p class="name">Tasks</p>
               </div>
           </div>
         </main>
