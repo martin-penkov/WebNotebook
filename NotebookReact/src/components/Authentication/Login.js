@@ -4,6 +4,8 @@ import {authenticationService} from '../../services/auth'
 import styled from 'styled-components'
 import { AuthContext } from './../../contexts/AuthContext'
 import { useHistory } from "react-router";
+import * as Yup from 'yup';
+import { Formik, Form, Field, ErrorMessage } from "formik";
 
 const StyledContainer = styled.div`
 margin: auto;
@@ -26,6 +28,12 @@ export default function Login(props) {
       return this.state.email.length > 0 && this.state.password.length > 0;
   }
 
+  const validationSchema = Yup.object({
+    email: Yup.string().required('Required').min(3,'Name must be at least 3 characters long'),
+    password: Yup.string().required('Required').min(4, "Passwords must be at least 4 characters long"),
+  })
+  const renderError = (message) => <p className="help is-danger">{message}</p>;
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         let response = await authenticationService.login(email, password)
@@ -39,12 +47,15 @@ export default function Login(props) {
       return (
         <StyledContainer>
           <div className="Login">
-            <form>
+          <Formik
+            validationSchema={validationSchema}>
+            <Form>
               <Typography variant="h5" style={{ margin: 8 }}>
                 Login
               </Typography>
               <StyledBox>
                 <TextField
+                  name="email"
                   label="Email"
                   variant="outlined"
                   fullWidth
@@ -52,9 +63,11 @@ export default function Login(props) {
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                 />
+                <ErrorMessage name="email" render={renderError} />
               </StyledBox>
               <StyledBox>
                 <TextField
+                  name="password"
                   label="Password"
                   variant="outlined"
                   fullWidth
@@ -64,6 +77,7 @@ export default function Login(props) {
                   value={password}
                   onChange={e => setPassword(e.target.value)}
                 />
+                <ErrorMessage name="password" render={renderError} />
               </StyledBox>
               <StyledBox>
                 <Button
@@ -77,7 +91,8 @@ export default function Login(props) {
                   Login
                 </Button>
               </StyledBox>
-            </form>
+            </Form>
+            </Formik>
           </div>
           </StyledContainer>
         );

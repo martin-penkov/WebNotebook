@@ -1,20 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { taskService } from '../../services/taskService';
-import { TextField } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import DatePicker from './DatePicker'
+import '../../styleSheets/Task.css'
+import Button from '@material-ui/core/Button';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 // return (<a href="#" className="list-group-item" onClick={() => {remove(todo.id)}}>{todo.text}</a>);
 
 //   return (<div className="list-group" style={{marginTop:'30px'}}>{todoNode}</div>);
 
-const useStyles = makeStyles((theme) => ({
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: 200,
-    backgroundColor: '#FFFFFF'
-  },
-}));
+
 
 
 export default function Task(props) {
@@ -22,46 +17,90 @@ export default function Task(props) {
     const [dateInput, setDateInput] = useState();
     const [taskList, setTaskList] = useState([]);
 
+    const [startDate, setStartDate] = useState();
+    const [endDate, setEndDate] = useState();
+
     useEffect(() => {
         //make server request => get all tasks for current user
-      setTaskList(taskService.getUserTasks())
-
+      collectTaskList()
     }, [])
-    const classes = useStyles();
+    
 
-  function addTodo(text, targetDate){
+
+  let collectTaskList = async function(){
+    let data = await taskService.getUserTasks();
+    data = data.map((x) => {return {show: true, id: x.id, text: x.text, targetDate: new Date(x.targetDate)}})
+    setTaskList(data)
+  }
+
+  async function addTodo(text, targetDate){
     // make server request => add task
-    taskService.addTask(text, targetDate)
+    await taskService.addTask(text, targetDate)
+    collectTaskList()
   }
   // Handle remove
-  function handleRemove(id){
+  async function handleRemove(id){
     // make server request => remove task
-
+    console.log(id)
+    await taskService.removeTask(id)
+    collectTaskList()
   }
+
+  function filterTodos(){
+    let startDateObj = new Date(startDate);
+    let endDateObj = new Date(endDate);
+
+    let filteredTasks = taskList.map((x) => (x.targetDate > startDateObj && x.targetDate < endDateObj) ? 
+    {show:true, id: x.id, text:x.text, targetDate: x.targetDate} :
+    {show:false, id: x.id, text:x.text, targetDate: x.targetDate})
+    
+    setTaskList(filteredTasks)
+    console.log(taskList)
+  }
+
 
   function formSubmitHandler(e) {
     e.preventDefault();
-    addTodo(textInput);
+    addTodo(textInput, dateInput);
   }
 
     return (
-      <div>
-        <h1>My Tasks</h1>
+      <div className="todolist">
+        <div className="todoTitleHeading">
+        <h1 className="todoTitle">My Tasks</h1>
+        </div>
         <form onSubmit={(event) => formSubmitHandler(event)}>
-            <TextField
-              id="datetime-local"
-              label="Finish Task until"
-              type="datetime-local"
-              defaultValue="2021-08-21T10:30"
-              className={classes.textField}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-            <input className="form-control col-md-12"/>
+            <DatePicker setFunction={setDateInput} inputText={"Finish Task until"}></DatePicker>
+            <input className="form-control col-md-12" onChange={(e) => setTextInput(e.target.value)}/>
             <br />
             <button type='submit'>Add Task</button>
         </form>
+
+      <div className="todoItems">
+        <div className="filterMenu">
+          From: {<DatePicker filterFunc={filterTodos} setFunction={setStartDate} customWidth="260px"/>}
+        </div>
+        <div>
+          Untill: {<DatePicker filterFunc={filterTodos} setFunction={setEndDate} customWidth="260px"/>}
+        </div>
+        <button onClick={filterTodos}>SORT</button>
+        <ul>
+          {taskList.length !== 0 && taskList.map((el) => {
+            return el.show && (<li key={el.id}>
+              <div className="taskTitleLi">{el.text}</div> untill {`${el.targetDate.getHours()}:${el.targetDate.getMinutes()}`}
+              <Button
+                className="listButton"
+                variant="contained"
+                color="#c44b3e"
+                startIcon={<DeleteIcon />}
+                onClick={() => handleRemove(el.id)}
+              >
+                Delete
+              </Button>
+              </li>)
+          })}
+        </ul>
+      </div>
       </div>
     );
   

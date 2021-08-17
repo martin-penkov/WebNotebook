@@ -2,7 +2,8 @@ import {requestOptions as reqOptions} from '../helpers/requestOptions';
 
 export const notebookService = {
     getUserItems,
-    createNotebook
+    createNotebook,
+    createNote
 }
 
 async function getUserItems(){
@@ -18,4 +19,9 @@ function createNotebook(title){
             .then(
                 response => console.log(response)
             )
+}
+
+function createNote(content){
+    return fetch('/Notebook/CreateNote', reqOptions.postAuthReqOption({content: content}))
+                .then(response => response.json())
 }

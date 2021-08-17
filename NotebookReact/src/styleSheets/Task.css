@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css?family=Architects+Daughter&display=swap');
+
+
+
+.todolist {
+    text-align: center;
+    margin: 50px auto;
+    padding: 16px;
+    min-height: 580px;
+    max-width: 550px;
+    background-color: #f1f5f8;
+    background-image: radial-gradient(#4c8c4a 7.2%, transparent 0);
+    background-size: 40px 40px;
+    border-radius: 20px;
+    box-shadow: 4px 3px 7px 2px #00000040;
+}
+
+.todoTitleHeading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.todoTitle {
+    width: 60%;
+    margin-top: 30px;
+    background-color: #4c8c4a;
+    border-radius: 10px;
+    border-radius: 20% 5% 20% 5%/5% 20% 25% 20%;
+    padding: 0.2rem 1.2rem;
+    color: white;
+}
+
+.todolist form {
+    margin-top: 40px;
+}
+
+.todolist input {  
+    border: 0;
+    margin-top: 5px;
+    border-bottom: 3px dashed #fdcb6e;
+    background-color: white;
+    font-family: "Architects Daughter", sans-serif;
+    font-size: 1.3rem;
+    padding: 10px 15px;
+    width: 70%;
+    color: #494a4b;
+}
+
+.todolist button {
+    margin-top: 30px;
+    border: 3px solid hsl(198, 1%, 29%);
+    border-radius: 8px;
+    padding: 10px 15px;
+    font-family: "Architects Daughter", sans-serif;
+    font-size: 0.9rem;
+}
+
+.todoItems {
+    margin: 50px 30px 0 30px;
+    background-color: white;
+    border-radius: 20px;
+}
+
+.todoItems ul li {
+    display: block;
+    border-bottom-style: solid;
+    margin: 20px 10px;
+    font-size: 1.4rem;
+    font-weight: 300;
+    color: #494a4b;
+}
+
+.todoItems ul{
+    padding: 0 0 0 0;
+}
+
+.listButton {
+display: inline;
+margin-bottom: 1rem !important;
+margin-left: 5rem !important;
+background-color: #c44b3e !important;
+color: #f5f5f5 !important
+
+}
+
+.taskTitleLi{
+    font-weight: bold;
+}

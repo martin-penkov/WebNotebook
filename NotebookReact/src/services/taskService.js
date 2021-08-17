@@ -14,16 +14,18 @@ async function getUserTasks() {
     return response
 }
 
-function addTask(text, targetDate){
-    let parsedDate = (new Date(targetDate)).toJSON()
+async function addTask(text, inputDate){
+    let targetDate = (new Date(inputDate)).toJSON()
 
-    return fetch(`/Tasks/AddUserTask`, reqOptions.postAuthReqOption({text, parsedDate}))
-            .then(response => response.json())
-            .then(
-                response => console.log(response)
-            )
+    await fetch(`/Tasks/AddUserTask`, reqOptions.postAuthReqOption({text, targetDate}))
+    // let response = await promise.json()
+            
 }
 
-function removeTask(){
+async function removeTask(id){
+    let promise = await fetch(`/Tasks/RemoveById/${id}`, reqOptions.deleteAuthReqOption())
 
+    let response = await promise.json()
+
+    return response
 }

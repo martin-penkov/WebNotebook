@@ -4,7 +4,7 @@ import { API_URL } from '../config'
 export const imageService = {
     exportCanvas,
     saveCanvas,
-    saveImage,
+    removeImage,
     getUserImages,
     uploadFromFileManager
 }
@@ -15,7 +15,8 @@ function exportCanvas(){
     return dataUrl
 }
 
-function saveImage(){
+async function removeImage(id){
+    await fetch(`/Images/${id}`, reqOptions.deleteAuthReqOption())
 
 }
 
@@ -41,17 +42,18 @@ async function getUserImages(){
     // }
 }
 
-function uploadFromFileManager(e){
+function uploadFromFileManager(e, refreshFunction){
     let reader = new FileReader() 
 
-    var htmlelemtnt = e.currentTarget.parentElement.querySelector("input").files[0]
+    var htmlelemtnt = e.currentTarget.parentElement.parentElement.querySelector("input").files[0]
     reader.readAsDataURL(htmlelemtnt)
     reader.onload = () => {
-        sendBase64String(reader.result)
+        sendBase64String(reader.result, refreshFunction)
     }
+    refreshFunction()
 }
 
-function sendBase64String(base64Data){
+async function sendBase64String(base64Data, refreshFunction){
     var base64result = base64Data.split(',')[1];
 
     let body = {
@@ -59,6 +61,9 @@ function sendBase64String(base64Data){
         "DateSent": (new Date(Date.now())).toJSON()
     }
 
-    fetch('/Images/PostImageRaw', reqOptions.postAuthReqOption(body))
-        .then(response => response.json())
+    await fetch('/Images/PostImageRaw', reqOptions.postAuthReqOption(body))
+        .then(response => {
+            response.json()
+            refreshFunction !== undefined && refreshFunction()
+        })
 }

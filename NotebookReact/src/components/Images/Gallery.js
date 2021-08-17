@@ -1,5 +1,5 @@
 import Photo from './Photo'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { imageService } from '../../services/imageService'
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
@@ -18,15 +18,22 @@ import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
 
+import DeleteIcon from '@material-ui/icons/Delete';
+import PhotoCamera from '@material-ui/icons/PhotoCamera';
+import { CenterFocusStrong } from '@material-ui/icons';
+import '../../styleSheets/Gallery.css'
+
+
 const useStyles = makeStyles(theme => ({
     root: {
       display: "flex",
       flexWrap: "wrap",
       justifyContent: "space-around",
       overflow: "hidden",
-      backgroundColor: theme.palette.background.paper
+      backgroundColor: "#212121"
     },
     gridList: {
+      justifyContent: "center",
       width: "auto",
       height: "auto"
     },
@@ -39,6 +46,20 @@ const useStyles = makeStyles(theme => ({
     title: {
       marginLeft: theme.spacing(2),
       flex: 1
+    },
+    deleteBtn: {
+        backgroundColor: "#c44b3e",
+        color: "#f5f5f5",
+        marginLeft: "1rem"
+    },
+    input: {
+        display: 'none'
+    },
+    listElement: {
+        backgroundColor: "#ffffff",
+        margin: "1rem",
+        minWidth: "25%",
+        maxWidth: "30%"
     }
   }));
 
@@ -52,6 +73,7 @@ export default function Gallery(){
     const classes = useStyles();
     const [selectedTile, setSelectedTile] = useState(null);
     const [images, setImages] = useState([])
+
 
     useEffect(() => {
         setImageFunc()
@@ -73,32 +95,36 @@ export default function Gallery(){
         setSelectedTile(null);
     };
 
+    async function handleDelete(){
+        await imageService.removeImage(selectedTile.id);
+        setImageFunc()
+        //disable del button
+    }
+
+    async function handleUpload(e, refreshFunction){
+        imageService.uploadFromFileManager(e, refreshFunction)
+    }
 
     return(
         <div>
             <div className="imageUploader">
-                <input type="file"
-                    id="avatar" name="avatar"
-                    accept="image/png, image/jpeg"/>
-                <Button color="inherit" onClick={(e) => imageService.uploadFromFileManager(e)}>Upload</Button>
+                <label >
+                    <Button onClick={(e) => handleUpload(e, setImageFunc)} variant="contained" color="primary" component="span">
+                    Upload
+                    </Button>
+                </label>
+                <input accept="image/*" className={classes.input} id="icon-button-file" type="file" />
+                <label htmlFor="icon-button-file">
+                    <IconButton color="primary" aria-label="upload picture" component="span">
+                    <PhotoCamera />
+                    </IconButton>
+                </label>
             </div>
             <div className={classes.root}>
-                <GridList cols={3}>
-                    className={classes.gridList}
+                <GridList cols={3} className={classes.gridList}>
                     {images.map(image => (
-                    <GridListTile key={image.id}>
+                    <GridListTile key={image.id} className={classes.listElement + " imageTile"} onClick={() => handleClickOpen(image)}>
                         <img src={image.url}/>
-                        <GridListTileBar
-                        actionIcon={
-                            <IconButton
-                            className={classes.icon}
-                            value={image.id}
-                            onClick={() => handleClickOpen(image)}
-                            >
-                            <InfoIcon />
-                            </IconButton>
-                        }
-                        />
                     </GridListTile>
                     ))}
                 </GridList>
@@ -124,7 +150,13 @@ export default function Gallery(){
                         <Button autoFocus color="inherit" onClick={handleClose}>
                             Download
                         </Button>
-                        <Button autoFocus color="red" onClick={handleClose}>
+                        <Button
+                            className={classes.deleteBtn}
+                            variant="contained"
+                            color="#c44b3e"
+                            startIcon={<DeleteIcon />}
+                            onClick={() => handleDelete()}
+                        >
                             Delete
                         </Button>
                     </Toolbar>

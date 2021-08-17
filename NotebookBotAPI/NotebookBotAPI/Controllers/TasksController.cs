@@ -30,11 +30,17 @@ namespace NotebookBotAPI.Controllers
         [Authorize]
         [HttpGet]
         [Route(nameof(GetUserTasks))]
-        public async Task<ActionResult<List<Models.Task>>> GetUserTasks()
+        public async Task<ActionResult<List<TaskExportModel>>> GetUserTasks()
         {
             var userId = GetUserContext().Id;
             var userTasks = _context.Tasks
                 .Where(x => x.UserId == userId)
+                .Select(x => new TaskExportModel()
+                {
+                    Id = x.Id,
+                    Text = x.Text,
+                    TargetDate = x.TargetDate
+                })
                 .ToList();
 
             return userTasks;
@@ -55,10 +61,32 @@ namespace NotebookBotAPI.Controllers
             };
 
             _context.Tasks.Add(task);
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
             return Ok();
         }
 
+        [Authorize]
+        [HttpDelete]
+        [Route("RemoveById/{id}")]
+        public ActionResult RemoveById(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest(new ArgumentException("No task could be found with given id!"));
+            }
+            
+            var task = _context.Tasks
+                    .Where(s => s.Id == id)
+                    .FirstOrDefault();
+            //check if task has been created by same user
+            if (task.UserId != GetUserContext().Id)
+                return BadRequest(new ArgumentException("Selected task does not belong to same user"));
+
+            _context.Tasks.Remove(task);
+            _context.SaveChanges();
+
+            return Ok();
+        }
 
 
         private User GetUserContext() => (User)HttpContext.Items["User"];
