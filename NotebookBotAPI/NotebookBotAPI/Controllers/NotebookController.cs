@@ -42,12 +42,15 @@ namespace NotebookBotAPI.Controllers
             return Ok();
         }
 
+        [Authorize]
+        [HttpPost]
+        [Route(nameof(CreateNote))]
         public async Task<ActionResult<Note>> CreateNote(NoteInputModel input)
         {
             var user = GetUserContext();
             if (user.Id == null)
             {
-                throw new ArgumentException("No user could be found with given username!");
+                return BadRequest(new ArgumentException("No user could be found with given username!"));
             }
 
             nbService.CreateNote(new Note

@@ -133,3 +133,31 @@ a {
     background: white;
     border-radius: 1rem;
 }
+
+.editorContainer { 
+    background-color: white;
+    height: 550px;
+    margin: 3rem;
+    border-radius: 1rem;
+    padding: 1rem;
+}
+.editorLoading {
+    size: 10rem;
+    position: fixed;
+    left: 50%;
+    top: 40%;
+}
+.hideBtn{
+    display: none !important;
+}
+
+.editorContainer .alignButton {
+    left: 50%;
+    margin-top: 1rem;
+    min-width: 10%;
+}
+
+.editorContainer .alignButton span {
+    text-align: center;
+    margin: 0px;
+}
