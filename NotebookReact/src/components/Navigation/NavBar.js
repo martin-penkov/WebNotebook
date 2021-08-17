@@ -57,8 +57,8 @@ export default function NavBar(props)  {
     return (
         <AppBar position="static">
             <Toolbar>
-              <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                <MenuIcon onClick={showSidebar} />
+              <IconButton onClick={showSidebar} edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                <MenuIcon />
               </IconButton>
               <Typography className={classes.title} variant="h6" color="inherit" noWrap>
                 <StyledLink to="/">

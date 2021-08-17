@@ -1,0 +1,8 @@
+.imageTile {
+    transition: all .2s ease-in-out;
+    cursor: pointer;
+}
+
+.imageTile:hover {
+    transform: scale(1.15);
+}

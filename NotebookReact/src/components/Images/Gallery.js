@@ -20,6 +20,9 @@ import Slide from "@material-ui/core/Slide";
 
 import DeleteIcon from '@material-ui/icons/Delete';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
+import { CenterFocusStrong } from '@material-ui/icons';
+import '../../styleSheets/Gallery.css'
+
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -27,9 +30,10 @@ const useStyles = makeStyles(theme => ({
       flexWrap: "wrap",
       justifyContent: "space-around",
       overflow: "hidden",
-      backgroundColor: theme.palette.background.paper
+      backgroundColor: "#212121"
     },
     gridList: {
+      justifyContent: "center",
       width: "auto",
       height: "auto"
     },
@@ -50,6 +54,12 @@ const useStyles = makeStyles(theme => ({
     },
     input: {
         display: 'none'
+    },
+    listElement: {
+        backgroundColor: "#ffffff",
+        margin: "1rem",
+        minWidth: "25%",
+        maxWidth: "30%"
     }
   }));
 
@@ -111,22 +121,10 @@ export default function Gallery(){
                 </label>
             </div>
             <div className={classes.root}>
-                <GridList cols={3}>
-                    className={classes.gridList}
+                <GridList cols={3} className={classes.gridList}>
                     {images.map(image => (
-                    <GridListTile key={image.id}>
+                    <GridListTile key={image.id} className={classes.listElement + " imageTile"} onClick={() => handleClickOpen(image)}>
                         <img src={image.url}/>
-                        <GridListTileBar
-                        actionIcon={
-                            <IconButton
-                            className={classes.icon}
-                            value={image.id}
-                            onClick={() => handleClickOpen(image)}
-                            >
-                            <InfoIcon />
-                            </IconButton>
-                        }
-                        />
                     </GridListTile>
                     ))}
                 </GridList>

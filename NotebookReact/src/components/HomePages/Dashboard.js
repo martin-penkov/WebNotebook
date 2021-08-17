@@ -4,7 +4,7 @@ import '../../styleSheets/Dashboard.css'
 import noteImage from '../../static/noteImage.png'
 import cameraImage from '../../static/cameraIcon.jpg'
 import drawImage from '../../static/drawImage.svg'
-import todo from '../../static/todo.png'
+import todo from '../../static/todo.jpg'
 import { useHistory } from 'react-router-dom';
 import useDelayRouteExit from "delay-react-route-exit";
 
@@ -42,7 +42,7 @@ export default function Dashboard() {
   return (
     <React.Fragment>
       <CssBaseline />
-        <main>
+        <main>  
           <div class="wrapper-flex">
               <div class="container" onClick={(event) => {createRipple(event)}}>
                 <h1 hidden>canvas</h1>

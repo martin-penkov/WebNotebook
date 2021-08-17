@@ -64,6 +64,6 @@ async function sendBase64String(base64Data, refreshFunction){
     await fetch('/Images/PostImageRaw', reqOptions.postAuthReqOption(body))
         .then(response => {
             response.json()
-            refreshFunction()
+            refreshFunction !== undefined && refreshFunction()
         })
 }
