@@ -161,3 +161,42 @@ a {
     text-align: center;
     margin: 0px;
 }
+
+.saveBtn {
+    min-width: 10% !important;
+    margin-left: 0.5rem !important;
+}
+
+.notesContainer {
+}
+
+.noteContainer{
+    transition: all .2s ease-in-out;
+    cursor: pointer;
+    height: 6rem;
+    margin: 1rem;
+    border-radius: 1rem;
+    padding: 1rem;
+    background-color: white;
+    margin: 1rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.noteContainer:hover {
+    transform: scale(1.015);
+}
+
+.noteDetails {
+    display: flex;
+    background-color: white;
+    height: 550px;
+    margin: 3rem;
+    border-radius: 1rem;
+    padding: 1rem;
+}
+
+.deleteBtn {
+    left: 80%;
+    height: 40px;
+}

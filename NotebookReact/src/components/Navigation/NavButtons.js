@@ -27,11 +27,8 @@ export default function NavButtons(props){
         case('/notes'):
                 return (
                 <div>
-                <Button variant="outlined" color="inherit" component={Link} to="/canvas">
-                    Draw
-                </Button>
-                <Button variant="outlined" color="inherit" component={Link} to="/note">
-                    Notes
+                <Button variant="contained" color="primary" component={Link} to="/note">
+                    Write
                 </Button></div>)
         default:
             return <div></div>

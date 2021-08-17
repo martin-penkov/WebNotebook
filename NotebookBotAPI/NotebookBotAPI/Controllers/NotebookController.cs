@@ -9,6 +9,7 @@ using NotebookBotAPI.Helpers;
 using NotebookBotAPI.Services.NotebookService;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
+using NotebookBotAPI.Models.ExportModels;
 
 namespace NotebookBotAPI.Controllers
 {
@@ -56,12 +57,37 @@ namespace NotebookBotAPI.Controllers
             nbService.CreateNote(new Note
             {
                 Title = input.Title,
-                Content = input.Content
+                Content = input.Content,
+                DateCreated = DateTime.Now,
+                UserId = user.Id
             });
 
             return Ok();
         }
 
+
+        [Authorize]
+        [HttpGet]
+        [Route(nameof(GetUserNotes))]
+        public async Task<ActionResult<ICollection<NoteExportModel>>> GetUserNotes()
+        {
+            var userId = GetUserContext().Id;
+
+            var data = nbService.GetAllUserNotes(userId);
+
+            return new JsonResult(data);
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("GetNoteById/{id}")]
+        public async Task<ActionResult<NoteExportModel>> GetNoteById(int id)
+        {
+            var userId = GetUserContext().Id;
+            var data = nbService.GetNote(id, userId);
+
+            return new JsonResult(data);
+        }
         
         [HttpGet]
         [Route(nameof(GetAll))]

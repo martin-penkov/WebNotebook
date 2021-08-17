@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using NotebookBotAPI.Helpers;
 using NotebookBotAPI.Models;
+using NotebookBotAPI.Models.ExportModels;
 using NotebookBotAPI.Models.ExportModels.NotebooksByUserId;
 using NotebookBotAPI.Models.InputModels;
 
@@ -28,8 +29,25 @@ namespace NotebookBotAPI.Services.NotebookService
             _dbcontext.SaveChanges();
         }
 
+        public NoteExportModel GetNote(int id, string userId)
+        {
+            var note = _dbcontext.Notes
+                    .FirstOrDefault(x => x.Id == id);
+
+            if (note.UserId != userId)
+            {
+                throw new ArgumentException("User does not have access to this note!");
+            }
+
+            return new NoteExportModel()
+            {
+                Content = note.Content,
+                DateCreated = note.DateCreated,
+                Id = note.Id
+            };
+        }
+
         [Authorize]
-        [HttpGet]
         public ICollection<UserIdNotebook> GetAllByOwnerId(string Id)
         {
             return _dbcontext.Notebooks
@@ -42,11 +60,24 @@ namespace NotebookBotAPI.Services.NotebookService
                   
         }
         [Authorize]
-        [HttpGet]
         public Notebook GetById(int Id)
         {
             return _dbcontext.Notebooks
                 .FirstOrDefault(x => x.Id == Id);
+        }
+
+
+        public ICollection<NoteExportModel> GetAllUserNotes(string userId)
+        {
+            return _dbcontext.Notes
+                .Where(x => x.UserId == userId)
+                .Select(x => new NoteExportModel()
+                {
+                    Id = x.Id,
+                    Content = x.Content,
+                    DateCreated = x.DateCreated
+                })
+                .ToList();
         }
     }
 }

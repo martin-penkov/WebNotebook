@@ -13,6 +13,7 @@ import { ThemeProvider } from '@material-ui/core'
 import { createMuiTheme } from '@material-ui/core/styles';
 import Task from './components/Task/Task'
 import NoteCollection from './components/Notebook/NoteCollection';
+import NoteDisplay from './components/Notebook/NoteDisplay';
 
 const theme = createMuiTheme({
   palette: {
@@ -47,10 +48,11 @@ class App extends Component {
                   <Route path='/login' component={Login}/>
                   <Route path='/register' component={Register}/>
                   <Route path='/canvas' component={Canvas}/>
-                  <Route path='/note' component={NotebookContent}/>
+                  <Route path='/note' exact component={NotebookContent}/>
                   <Route path='/gallery' component={Gallery}/>
                   <Route path='/tasks' component={Task}/>
                   <Route path='/notes' component={NoteCollection}/>
+                  <Route path='/note/:id' component={NoteDisplay}/>
                 </Switch>
             </div>
           </UserProvider>
