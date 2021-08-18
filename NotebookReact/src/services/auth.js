@@ -27,7 +27,6 @@ function register(username, password) {
         async function getErrorMessage(){
             console.log(error)
             //let jsonObj = await error.json()
-            return alert()
         }
         getErrorMessage()
     })
