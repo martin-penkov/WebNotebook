@@ -1,4 +1,3 @@
-import { LaptopWindows } from "@material-ui/icons";
 
 export const CanvasProvider = {
   prepareCanvas,

@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { AuthContext } from './../../contexts/AuthContext'
 import { useHistory } from "react-router";
 import * as Yup from 'yup';
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, ErrorMessage } from "formik";
 
 const StyledContainer = styled.div`
 margin: auto;

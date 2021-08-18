@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -27,12 +25,6 @@ namespace NotebookBotAPI.Controllers
             _context = context;
         }
 
-        // GET: api/Images
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Image>>> GetImages()
-        {
-            return await _context.Images.ToListAsync();
-        }
 
         // GET: api/Images/5
         [HttpGet("{id}")]
