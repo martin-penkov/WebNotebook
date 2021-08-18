@@ -16,5 +16,7 @@ namespace NotebookBotAPI.Services.NotebookService
 
         ICollection<NoteExportModel> GetAllUserNotes(string userId);
         NoteExportModel GetNote(int id, string userId);
+
+        void DeleteNote(int id, string userId);
     }
 }

@@ -42,6 +42,7 @@ export default function Task(props) {
   async function handleRemove(id){
     // make server request => remove task
     console.log(id)
+    setTaskList(taskList.filter(x => x.id !== id))
     await taskService.removeTask(id)
     collectTaskList()
   }

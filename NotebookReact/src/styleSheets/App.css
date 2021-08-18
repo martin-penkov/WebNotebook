@@ -136,7 +136,7 @@ a {
 
 .editorContainer { 
     background-color: white;
-    height: 550px;
+    height: 590px;
     margin: 3rem;
     border-radius: 1rem;
     padding: 1rem;
@@ -183,6 +183,10 @@ a {
     text-overflow: ellipsis;
 }
 
+.noteContent{
+    width: 80%;
+}
+
 .noteContainer:hover {
     transform: scale(1.015);
 }
@@ -194,9 +198,11 @@ a {
     margin: 3rem;
     border-radius: 1rem;
     padding: 1rem;
+    flex-wrap: wrap;
 }
 
-.deleteBtn {
-    left: 80%;
-    height: 40px;
+.noteInformation {
+    left: 80% ;
+    height: 150px;
+    margin-left: auto;
 }

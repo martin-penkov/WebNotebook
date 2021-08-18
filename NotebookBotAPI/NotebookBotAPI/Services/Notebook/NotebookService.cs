@@ -34,6 +34,11 @@ namespace NotebookBotAPI.Services.NotebookService
             var note = _dbcontext.Notes
                     .FirstOrDefault(x => x.Id == id);
 
+            if(note == null)
+            {
+                return null;
+            }
+
             if (note.UserId != userId)
             {
                 throw new ArgumentException("User does not have access to this note!");
@@ -45,6 +50,20 @@ namespace NotebookBotAPI.Services.NotebookService
                 DateCreated = note.DateCreated,
                 Id = note.Id
             };
+        }
+
+        public void DeleteNote(int id, string userId)
+        {
+            var note = _dbcontext.Notes
+                            .FirstOrDefault(x => x.Id == id);
+
+            if (note.UserId != userId)
+            {
+                throw new ArgumentException("User does not have access to this note!");
+            }
+
+            _dbcontext.Notes.Remove(note);
+            _dbcontext.SaveChanges();
         }
 
         [Authorize]
@@ -65,6 +84,7 @@ namespace NotebookBotAPI.Services.NotebookService
             return _dbcontext.Notebooks
                 .FirstOrDefault(x => x.Id == Id);
         }
+
 
 
         public ICollection<NoteExportModel> GetAllUserNotes(string userId)

@@ -5,7 +5,8 @@ export const notebookService = {
     createNotebook,
     createNote,
     getuserNotes,
-    getNote
+    getNote,
+    deleteNote
 }
 
 async function getUserItems(){
@@ -42,4 +43,9 @@ async function getNote(id){
     let response = await promise.json()
 
     return response
+}
+
+async function deleteNote(id){
+    return fetch(`/Notebook/DeleteNote/${id}`, reqOptions.deleteAuthReqOption())
+
 }

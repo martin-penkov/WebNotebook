@@ -5,6 +5,8 @@ import ReactHtmlParser from 'react-html-parser';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
 
 const useStyles = makeStyles(theme => ({
     deleteBtn: {
@@ -15,6 +17,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function NoteDisplay() {
+    const [openDialog, setOpenDialog] = useState(false)
     const classes = useStyles();
     const { id } = useParams()
     const [note, setNote] = useState(null)
@@ -28,24 +31,33 @@ export default function NoteDisplay() {
         getNote()
     }, [])
 
-    function handleDelete(){
-
+    async function handleDelete(id){
+        notebookService.deleteNote(id)
     }
 
     return (
         <div className="noteDetails">
-            <div>
+            <div className="noteContent">
                 {note !== null && ReactHtmlParser (note.content)}
             </div>
+            <div className={"noteInformation"}>
             <Button
                 className={classes.deleteBtn + ' deleteBtn'}
                 variant="contained"
                 color="#c44b3e"
                 startIcon={<DeleteIcon />}
-                onClick={() => handleDelete()}
+                onClick={() => {
+                    handleDelete(note.id)
+                    setOpenDialog(true)
+                    setTimeout(() => setOpenDialog(false), 2000)
+                }}
             >
-                Delete
+                Delete<Dialog open={openDialog} aria-labelledby="simple-dialog-title">
+    <DialogTitle id="simple-dialog-title">Note successfully deleted!</DialogTitle>
+</Dialog>
             </Button>
+            <h4>{note !== null && "Date Created: " + note.dateCreated.substring(0, 10)}</h4>
+            </div>
         </div>
     )
 }
