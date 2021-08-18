@@ -9,7 +9,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/martin-penkov/WebNotebook/blob/main/NotebookReact/src/static/logoIcon.png?raw=true">
+  <a href="https://github.com/martin-penkov/WebNotebook/blob/main/NotebookReact/src/static/logoIcontransparent.png?raw=true">
     <img src="https://github.com/martin-penkov/WebNotebook/blob/main/NotebookReact/src/static/logoIcon.png" alt="Logo" width="80" height="80">
   </a>
 
