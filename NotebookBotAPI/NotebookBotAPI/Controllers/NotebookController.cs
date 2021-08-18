@@ -88,6 +88,18 @@ namespace NotebookBotAPI.Controllers
 
             return new JsonResult(data);
         }
+
+        [Authorize]
+        [HttpDelete]
+        [Route("DeleteNote/{id}")]
+        public async Task<ActionResult> DeleteNote(int id)
+        {
+            var userId = GetUserContext().Id;
+
+            nbService.DeleteNote(id, userId);
+
+            return Ok();
+        }
         
         [HttpGet]
         [Route(nameof(GetAll))]
