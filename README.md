@@ -9,8 +9,8 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/martin-penkov/WebNotebook/blob/main/image.jpg?raw=true">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  <a href="https://github.com/martin-penkov/WebNotebook/blob/main/NotebookReact/src/static/logoIcon.png?raw=true">
+    <img src="https://github.com/martin-penkov/WebNotebook/blob/main/NotebookReact/src/static/logoIcon.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Web Notebook</h3>
