@@ -46,7 +46,6 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://github.com/martin-penkov/WebNotebook/blob/main/NotebookReact/src/static/readmeLandingPage.jpg)
 
 A personal organizer which supports user creation, drawing, note creation, task creation and image upload
 
