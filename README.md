@@ -57,6 +57,9 @@ A list of commonly used resources:
 
 * [React](https://reactjs.org/)
 * [ASP.NET CORE](https://dotnet.microsoft.com/learn/aspnet/what-is-aspnet-core)
+* [Material-UI](https://material-ui.com/)
+* [ASP.NET CORE IDENTITY + Custom JWT Middleware]
+* [Canvas API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API)
 
 
 
