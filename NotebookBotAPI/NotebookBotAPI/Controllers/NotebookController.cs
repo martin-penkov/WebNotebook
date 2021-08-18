@@ -2,13 +2,10 @@
 using NotebookBotAPI.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using NotebookBotAPI.Models.InputModels;
 using NotebookBotAPI.Helpers;
 using NotebookBotAPI.Services.NotebookService;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Identity;
 using NotebookBotAPI.Models.ExportModels;
 
 namespace NotebookBotAPI.Controllers
@@ -101,6 +98,7 @@ namespace NotebookBotAPI.Controllers
             return Ok();
         }
         
+        [Authorize]
         [HttpGet]
         [Route(nameof(GetAll))]
         public async Task<ActionResult<ICollection<Notebook>>> GetAll()

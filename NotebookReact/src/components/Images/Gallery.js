@@ -1,13 +1,10 @@
-import Photo from './Photo'
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import { imageService } from '../../services/imageService'
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
-import GridListTileBar from '@material-ui/core/GridListTileBar';
 import IconButton from "@material-ui/core/IconButton";
-import InfoIcon from "@material-ui/icons/Info";
 
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -20,7 +17,6 @@ import Slide from "@material-ui/core/Slide";
 
 import DeleteIcon from '@material-ui/icons/Delete';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
-import { CenterFocusStrong } from '@material-ui/icons';
 import '../../styleSheets/Gallery.css'
 
 
