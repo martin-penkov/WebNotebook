@@ -34,9 +34,7 @@
       </ul>
     </li>
     <li>
-      <ul>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
+       <a href="#installation">Installation</a>
     </li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
