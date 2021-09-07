@@ -14,7 +14,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import Task from './components/Task/Task'
 import NoteCollection from './components/Notebook/NoteCollection';
 import NoteDisplay from './components/Notebook/NoteDisplay';
-//test
+
 const theme = createMuiTheme({
   palette: {
     primary: {
